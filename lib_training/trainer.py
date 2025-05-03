@@ -2,7 +2,7 @@ import os
 import traceback
 import sys
 
-from lib_training.OMEN_parser import AlphabetGrammar, AlphabetCollector
+from lib_training.OMEN_parser import AlphabetGrammar
 from lib_training.PCFG_parser import PCFGParser
 from lib_training.detectors.word_trie import WordTrie
 from lib_training.evaluate_password import calc_omen_keyspace
