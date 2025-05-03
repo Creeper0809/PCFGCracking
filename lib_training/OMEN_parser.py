@@ -1,3 +1,6 @@
+from lib_training import smoothing
+
+
 class AlphabetGrammerNode:
     def __init__(self):
         self.count_at_start = 0  # 시작위치에서 등장 횟수
@@ -5,12 +8,15 @@ class AlphabetGrammerNode:
         self.count_in_middle = 0  # 중간 위치에서 등장 횟수
         self.next_letter_candidates = {}  # 다음 알파벳 등장 가능 후보
 
+        self.start_level = 0
+        self.end_level = 0
+        self.keyspace_cache = {}
+
 
 class AlphabetGrammar:
-    def __init__(self, alphabet: str, ngram: int, min_length: int, max_length: int):
-        self.alphabet = alphabet
+    def __init__(self, ngram: int, min_length: int, max_length: int):
         self.ngram = ngram
-        self.grammer = {}
+        self.grammar = {}
         self.min_length = min_length
         self.max_length = max_length
 
@@ -32,12 +38,10 @@ class AlphabetGrammar:
 
         for i in range(password_length - self.ngram + 2):
             start_ngram = password[i: i + self.ngram - 1]
-            if start_ngram not in self.grammer:
-                if not self.is_in_alphabet(start_ngram):
-                    continue
-                self.grammer[start_ngram] = AlphabetGrammerNode()
+            if start_ngram not in self.grammar:
+                self.grammar[start_ngram] = AlphabetGrammerNode()
 
-            idx: AlphabetGrammerNode = self.grammer[start_ngram]
+            idx: AlphabetGrammerNode = self.grammar[start_ngram]
 
             if i == 0:
                 idx.count_at_start += 1
@@ -51,39 +55,34 @@ class AlphabetGrammar:
                 idx.count_at_end += 1
                 self.count_at_end += 1
 
-    def is_in_alphabet(self, cur_ngram):
-        for letter in cur_ngram:
-            if letter not in self.alphabet:
-                return False
-        return True
+    def apply_smoothing(self):
+        smoothing.smooth_length(self.ln_lookup, self.ln_counter)
+        smoothing.smooth_grammar(self.grammar, self.count_at_start, self.count_at_end)
+
+def find_omen_level(omen_trainer, password):
+    pw_len = len(password)
+    if pw_len < omen_trainer.min_length or pw_len > omen_trainer.max_length:
+        return -1
+
+    ngram = omen_trainer.ngram
+
+    try:
+
+        ln_level = omen_trainer.ln_lookup[pw_len - 1][0]
+
+        chunk = password[0:ngram-1]
+        chain_level = omen_trainer.grammar[chunk]['ip_level']
+
+        end_pos = ngram
+
+        while end_pos <= pw_len:
+            chunk = password[end_pos - ngram:end_pos]
+            chain_level += omen_trainer.grammar[chunk[:-1]]['next_letter'][chunk[-1]][0]
+            end_pos += 1
+
+        return ln_level + chain_level
+
+    except KeyError:
+        return -1
 
 
-class AlphabetCollector:
-    def __init__(self, alphabet_size, ngram):
-        self.alphabet_size = alphabet_size
-        self.ngram = ngram
-        self.dictionary = {}
-
-    def process_password(self, password):
-        if len(password) < self.ngram:
-            return
-        for letter in password:
-            if letter in ['\t']:
-                continue
-            if letter in self.dictionary:
-                self.dictionary[letter] += 1
-            else:
-                self.dictionary[letter] = 1
-        return
-
-    def get_alphabet(self):
-        sorted_alphabet = [(k, self.dictionary[k]) for k in sorted(
-            self.dictionary, key=self.dictionary.get, reverse=True)]
-        count = 0
-        final_alphabet = ''
-        for item in sorted_alphabet:
-            if count >= self.alphabet_size:
-                return final_alphabet
-            final_alphabet += item[0]
-            count += 1
-        return final_alphabet

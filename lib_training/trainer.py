@@ -5,6 +5,7 @@ import sys
 from lib_training.OMEN_parser import AlphabetGrammar, AlphabetCollector
 from lib_training.PCFG_parser import PCFGParser
 from lib_training.detectors.word_trie import WordTrie
+from lib_training.evaluate_password import calc_omen_keyspace
 from lib_training.train_data_parser import TrainingDataParser
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -22,31 +23,7 @@ def start_train():
         max_length=max_length,
         filedir=CANDIDATES_PATH
     )
-    alphabet = AlphabetCollector(
-        alphabet_size=max_length,
-        ngram=ngram
-    )
-
-    trained_count = 0
-    try:
-        for password in file_input.read_password():
-            trained_count += 1
-            alphabet.process_password(password)
-            if trained_count % 1000 == 0:
-                print(str(trained_count // 1000) + '천개')
-    except Exception as msg:
-        traceback.print_exc(file=sys.stdout)
-        print("예외 발생: " + str(msg))
-        print("종료 중...")
-        return
-
-    file_input = TrainingDataParser(
-        min_length=min_length,
-        max_length=max_length,
-        filedir=CANDIDATES_PATH
-    )
     omen = AlphabetGrammar(
-        alphabet=alphabet.get_alphabet(),
         ngram=ngram,
         min_length = min_length,
         max_length = max_length,
@@ -70,5 +47,9 @@ def start_train():
         print("예외 발생: " + str(msg))
         print("종료 중...")
         return
+    omen.apply_smoothing()
+    omen_keyspace = calc_omen_keyspace(omen)
+
+    print(omen_keyspace)
 
 start_train()
