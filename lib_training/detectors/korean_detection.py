@@ -23,10 +23,6 @@ _final_map = {
 }
 
 def _can_parse_hangul(s: str) -> bool:
-    """
-    s가 두벌식 키 입력만으로
-    1개 이상의 완전한 한글 음절 시퀀스로 전부 파싱되는지 확인
-    """
     i, n = 0, len(s)
     while i < n:
         if s[i] not in _initial_map:
@@ -55,12 +51,6 @@ def _can_parse_hangul(s: str) -> bool:
     return True
 
 def _split_hangul_prefixes(text: str) -> List[Tuple[str, Optional[str]]]:
-    """
-    text를 가능한 최장 hangul-prefix → H{길이}
-    아니면 invalid 연속 구간 → None
-    으로 분할하되,
-    판정은 소문자(lower_text)로 하고, res에는 원본 대문자/소문자 그대로 넣음
-    """
     res: List[Tuple[str, Optional[str]]] = []
     lower_text = text.lower()
     i, n = 0, len(text)
@@ -86,11 +76,6 @@ def _split_hangul_prefixes(text: str) -> List[Tuple[str, Optional[str]]]:
     return res
 
 def mark_hn_sections(sections):
-    """
-    원본 (text,label) 리스트를 순회하며
-     - label!=None: 그대로
-     - label==None: _split_hangul_prefixes 결과로 대체
-    """
     out = []
     temp_sections = []
     for txt, lbl in sections:
@@ -98,7 +83,7 @@ def mark_hn_sections(sections):
             for txt2,lbl2 in _split_hangul_prefixes(txt):
                 temp_sections.append((txt2, lbl2))
                 if lbl2 is not None and lbl2.startswith("H"):
-                    out.append(txt2)
+                    out.append(txt2.lower())
         else:
             temp_sections.append((txt, lbl))
     return out, temp_sections

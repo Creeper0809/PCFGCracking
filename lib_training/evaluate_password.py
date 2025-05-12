@@ -1,26 +1,11 @@
-#!/usr/bin/env python3
-
-
-"""
-Collections of functions to evalute a password against a previously
-trained OMEN model
-"""
-
 from collections import Counter
 
-from lib_training.OMEN_parser import AlphabetGrammerNode
-
-
 def find_omen_level(omen_trainer, password):
-
     pw_len = len(password)
     if pw_len < omen_trainer.min_length or pw_len > omen_trainer.max_length:
         return -1
-
     ngram = omen_trainer.ngram
-
     try:
-
         ln_level = omen_trainer.ln_lookup[pw_len - 1][0]
 
         chunk = password[0:ngram - 1]

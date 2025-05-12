@@ -11,11 +11,6 @@ class TrainingDataParser:
         self.num_passwords = 0
 
     def check_valid(self,input_password):
-        '''
-        비밀번호 유효성 검사
-        :param input_password:
-        :return: boolean
-        '''
         if len(input_password) < self.min_length:
             return False
         if len(input_password) > self.max_length:

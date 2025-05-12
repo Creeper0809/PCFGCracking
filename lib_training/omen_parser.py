@@ -71,13 +71,13 @@ def find_omen_level(omen_trainer, password):
         ln_level = omen_trainer.ln_lookup[pw_len - 1][0]
 
         chunk = password[0:ngram-1]
-        chain_level = omen_trainer.grammar[chunk]['ip_level']
+        chain_level = omen_trainer.grammar[chunk].start_level
 
         end_pos = ngram
 
         while end_pos <= pw_len:
             chunk = password[end_pos - ngram:end_pos]
-            chain_level += omen_trainer.grammar[chunk[:-1]]['next_letter'][chunk[-1]][0]
+            chain_level += omen_trainer.grammar[chunk[:-1]].next_letter_candidates[chunk[-1]][0]
             end_pos += 1
 
         return ln_level + chain_level

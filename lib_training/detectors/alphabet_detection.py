@@ -1,9 +1,6 @@
 from typing import List, Tuple, Optional
 
 def split_alpha_special(text: str) -> List[str]:
-    """
-    text를 연속된 알파벳 / 연속된 비-알파벳 구간으로 분리해서 리스트로 반환
-    """
     segs = []
     i, n = 0, len(text)
     while i < n:
@@ -29,7 +26,7 @@ def detect_alphabet(section_list) -> List[str]:
             for seg in split_alpha_special(txt):
                 if seg.isalpha():
                     parsing.append((seg, f"A{len(seg)}"))
-                    found_alphas.append(seg)
+                    found_alphas.append(seg.lower())
                 else:
                     parsing.append((seg, None))
             section_list[idx:idx+1] = parsing
@@ -40,10 +37,6 @@ def detect_alphabet(section_list) -> List[str]:
 
 
 def detect_alphabet_mask(section_list):
-    """
-    section_list 중 label이 'H...' 혹은 'A...' 로 시작하는
-    문자열에 대해, 각 문자의 대소문자를 U/L 마스크로 변환해 반환.
-    """
     masks: List[Tuple[str, str]] = []
     for string, label in section_list:
         if not (label and (label.startswith('H') or label.startswith('A'))):
