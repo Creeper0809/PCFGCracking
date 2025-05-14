@@ -27,14 +27,11 @@ def smooth_grammar(grammar, ip_total, ep_total):
 
         # 모든 조건부 확률(next_letter 전이)을 순회합니다.
         for cond_prob in index.next_letter_candidates:
-            # 딕셔너리 참조를 변수에 할당해 코드를 간결하게 합니다.
             cp_count = index.next_letter_candidates[cond_prob]
-
             # 전이 스무딩 레벨 계산
             level = _calc_level(
                 cp_count, index.count_in_middle, level_adjust_factor['middle']
             )
-
             # (level, 원본 count) 튜플로 저장
             index.next_letter_candidates[cond_prob] = (level, cp_count)
 

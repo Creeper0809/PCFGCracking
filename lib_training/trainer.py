@@ -27,7 +27,7 @@ def start_train():
 
         # 기본 단어로 취급할 빈도수 << 5번 등장해야 단어로 취급
         'needed_appear': 1,
-        # 사전학습 단어의 가중치
+        # 사전학습 단어의 가중치 학습시 needed_appear * weight 만큼 나온걸로 취급
         'weight' : 5
     }
     pre_train = TrainingDataParser(
@@ -78,9 +78,9 @@ def start_train():
         print("예외 발생: " + str(msg))
         print("종료 중...")
         return
+
     omen.apply_smoothing()
     omen_keyspace = calc_omen_keyspace(omen)
-
     pcfg_parser.caculate_word_tree()
 
     file_input = TrainingDataParser(
@@ -90,7 +90,6 @@ def start_train():
     )
 
     omen_level_counter = Counter()
-
     trained_count = 0
     try:
         for password in file_input.read_password():
