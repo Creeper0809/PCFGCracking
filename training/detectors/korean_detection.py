@@ -1,9 +1,54 @@
 import functools
 import math
+import os.path
 
-from korean_dict.save_load import load_word_probs
+import Constants
+from korean_dict.io.save_load import load_word_probs
 
-probs = load_word_probs("//korean_dict/korean_dict/unigram_probs.json")
+
+probs = load_word_probs(os.path.join(Constants.KOREAN_DICT_PATH,"unigram_probs.json"))
+
+key_map = {h for h in probs.keys()}
+buckmap = {}
+for rom in key_map:
+    key = rom.casefold()
+    buckmap.setdefault(key, []).append(rom)
+
+def _matches_phonemic_case(rom_key: str, text: str) -> bool:
+    if len(rom_key) != len(text):
+        return False
+    for r_char, t_char in zip(rom_key, text):
+        if r_char.isupper():
+            if t_char != r_char:
+                return False
+        else:
+            if t_char.lower() != r_char:
+                return False
+    return True
+
+def get_original(roman: str) -> str | None:
+    lower_key = roman.casefold()
+    for candidate in buckmap.get(lower_key, []):
+        if _matches_phonemic_case(candidate, roman):
+            return candidate
+    return None
+
+def get_korean_caps_mask(segmentations):
+    masks = []
+    for txt,label in segmentations:
+        if label is not None and label.startswith("H"):
+            original = get_original(txt)
+            mask = ''
+            for o_char, t_char in zip(original, txt):
+                if o_char == t_char:
+                    mask += 'L'
+                    continue
+                if t_char.isupper():
+                    mask += 'U'
+                else:
+                    mask += 'L'
+            masks.append(mask)
+    return masks
 
 @functools.lru_cache(maxsize=10000)
 def segment_word(
@@ -11,7 +56,7 @@ def segment_word(
     max_len: int = 20,
     unk_base: float = 1e-3,
     split_penalty_known: float = 1.0,
-    split_penalty_unk: float = 0.0  # 이걸로 조절
+    split_penalty_unk: float = 0.0
 ):
     n = len(text)
     log_unk = math.log(unk_base)
@@ -24,8 +69,9 @@ def segment_word(
         for j in range(max(0, i - max_len), i):
             seg = text[j:i]
 
-            is_known = seg in probs
-            lp_seg = math.log(probs[seg]) if is_known else log_unk * len(seg)
+            original = get_original(seg)
+            is_known = original is not None
+            lp_seg = math.log(probs[original]) if is_known else log_unk * len(seg)
             penalty = split_penalty_known if is_known else split_penalty_unk
 
             prev_score, prev_seq = dp[j]
@@ -38,7 +84,7 @@ def segment_word(
         dp[i] = (best_score, best_seq)
 
     return [
-        (seg, f"H{len(seg)}") if seg in probs else (seg, None)
+        (seg, f"H{len(seg)}") if get_original(seg) is not None else (seg, None)
         for seg in dp[n][1]
     ]
 
@@ -50,7 +96,7 @@ def mark_hn_sections(sections):
             for txt2,lbl2 in segment_word(txt):
                 temp_sections.append((txt2, lbl2))
                 if lbl2 is not None and lbl2.startswith("H"):
-                    out.append(txt2.lower())
+                    out.append(txt2)
         else:
             temp_sections.append((txt, lbl))
     return out, temp_sections
@@ -59,3 +105,5 @@ if __name__ == "__main__":
     print("minjaeminajae : ",segment_word("minjaeminjae"))
     print("p@$$w0rd2024!sual : ",segment_word("p@$$w0rd2024!sual0ve"))
     print("anfrlaclalswo : ",segment_word("anfrlaclalswo"))
+
+    print("d", get_original("RKaSid"))

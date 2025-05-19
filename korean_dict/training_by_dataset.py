@@ -1,15 +1,17 @@
 import json
+import os
 import re
 from pathlib import Path
 from collections import Counter
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from typing import List, Tuple
 
+import Constants
 from korean_dict.data_parser.korean_copus_parser import KoreanCopusParser, YoutubeCommentParser
 from korean_dict.data_parser.name_parser import NameListParser
 from korean_dict.data_parser.new_word_parser import NewWordParser, NewWordParser2, NewWordParser3
 from korean_dict.data_parser.word_parser import TabularNounParser
-from korean_dict.save_load import load_checkpoint_counts, save_checkpoint_counts, save_checkpoint_done, \
+from korean_dict.io.save_load import load_checkpoint_counts, save_checkpoint_counts, save_checkpoint_done, \
     load_checkpoint_done
 
 RE_HANGUL_SEQ = re.compile(r"[가-힣]+")
@@ -122,8 +124,9 @@ def parallel_process_resume(
 def main():
     base = Path(r"D:\Progamming\dataset\korean_copus")
     assignments = assign_parsers(base)
-    ck_counts = Path("korean_dict/checkpoint_counts.json")
-    ck_done = Path("korean_dict/checkpoint_done.json")
+
+    ck_counts = Path(os.path.join(Constants.KOREAN_DICT_PATH,"checkpoint_counts.json"))
+    ck_done = Path(os.path.join(Constants.KOREAN_DICT_PATH,"checkpoint_done.json"))
 
     total_ctr = parallel_process_resume(
         assignments,
@@ -134,8 +137,7 @@ def main():
         cols=5,
         checkpoint_every=10
     )
-
-    out = Path("korean_dict/korean_dict.json")
+    out = Path(os.path.join(Constants.KOREAN_DICT_PATH, "korean_dict.json"))
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(total_ctr, ensure_ascii=False), encoding="utf-8")
 

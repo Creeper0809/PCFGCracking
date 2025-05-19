@@ -6,7 +6,7 @@ from typing import List, Dict
 import aiohttp
 
 from han2en import hangul_to_dubeolsik, extract_clean_hangul
-from korean_dict.han2en import hangul_to_romanization
+from korean_dict.util.han2en import hangul_to_romanization
 from korean_dict.site_parser.parser_registry import get_parser_for
 
 MAX_LIST_CONCURRENCY = 5

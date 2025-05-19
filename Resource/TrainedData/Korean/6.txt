@@ -1,0 +1,3 @@
+minjae	0.4
+jammin	0.4
+kimchi	0.2

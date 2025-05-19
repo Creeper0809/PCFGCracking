@@ -3,21 +3,18 @@ import traceback
 import sys
 from collections import Counter
 
-from training.omen_parser import AlphabetGrammar, find_omen_level
-from training.pcfg_parser import PCFGParser
-from training.evaluate_password import calc_omen_keyspace
-from training.omen_train_data_output import save_omen_rules_to_disk
-from training.pcfg_output import save_pcfg_data
-from training.train_data_parser import TrainingDataParser
-from training.word_trie import WordTrie
-
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-INPUT_DATA_DIR = os.path.join(BASE_DIR, "Resource")
-
+import Constants
+from training.omen.omen_parser import AlphabetGrammar, find_omen_level
+from training.pcfg.pcfg_parser import PCFGParser
+from training.omen.evaluate_password import calc_omen_keyspace
+from training.omen.omen_train_data_output import save_omen_rules_to_disk
+from training.pcfg.pcfg_output import save_pcfg_data
+from training.io.train_data_parser import TrainingDataParser
+from training.pcfg.word_trie import WordTrie
 
 def start_train():
-    #CANDIDATES_PATH = os.path.join(INPUT_DATA_DIR, "korean_password_candidates.txt")
-    CANDIDATES_PATH = os.path.join(INPUT_DATA_DIR, "test.txt")
+    #CANDIDATES_PATH = os.path.join(Constants.TRAINING_DATA_PATH, "korean_password_candidates.txt")
+    CANDIDATES_PATH = os.path.join(Constants.TRAINING_DATA_PATH, "test.txt")
 
     program_info = {
         'ngram': 3,
@@ -34,7 +31,7 @@ def start_train():
     pre_train = TrainingDataParser(
         min_length=program_info['min_length'],
         max_length=program_info['max_length'],
-        filedir= os.path.join(INPUT_DATA_DIR, "pre_train_english.txt")
+        filedir= os.path.join(Constants.TRAINING_DATA_PATH, "pre_train_english.txt")
     )
     word_trie = WordTrie(needed_appear=program_info['needed_appear'])
 
@@ -47,7 +44,7 @@ def start_train():
     pre_train = TrainingDataParser(
         min_length=program_info['min_length'],
         max_length=program_info['max_length'],
-        filedir=os.path.join(INPUT_DATA_DIR, "pre_train_korean.txt")
+        filedir=os.path.join(Constants.TRAINING_DATA_PATH, "pre_train_korean.txt")
     )
     try:
         for word in pre_train.read_password():
@@ -109,7 +106,7 @@ def start_train():
         print("종료 중...")
         return
 
-    markov_proportion = 0 # 0~1사이 PCFG와 마르코프 패스워드 비율을 어느정도로 맞추겠냐
+    markov_proportion = 0
 
     if markov_proportion != 0:
         if markov_proportion == 1:
@@ -119,7 +116,7 @@ def start_train():
             markov_prob = (file_input.num_passwords / markov_proportion) - file_input.num_passwords
             pcfg_parser.count_base_structures['M'] = markov_prob
 
-    base_directory = os.path.join(BASE_DIR,'TrainedSet')
+    base_directory = Constants.TRAINED_DATA_PATH
 
     if not save_omen_rules_to_disk(
             alphabet_grammar=omen,

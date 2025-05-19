@@ -2,7 +2,7 @@ import re
 from collections import Counter
 
 from korean_dict.data_parser.BaseParser import BaseParser
-from korean_dict.han2en import extract_clean_hangul
+from korean_dict.util.han2en import extract_clean_hangul
 
 
 class NewWordParser(BaseParser):

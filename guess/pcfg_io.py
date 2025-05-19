@@ -1,4 +1,5 @@
 import os,codecs
+from collections import OrderedDict
 
 def load_indexed_prob(folder,encoding):
     data={}
@@ -15,6 +16,7 @@ def load_indexed_prob(folder,encoding):
     return data
 
 def load_pcfg_data(base_directory,encoding):
+    from guess.pcfg_guesser import Type
     grammar={}
     mapping=[
         ('Keyboard','K'),
@@ -29,29 +31,39 @@ def load_pcfg_data(base_directory,encoding):
         if not os.path.isdir(d): continue
         data=load_indexed_prob(d,encoding)
         for idx,items in data.items():
-            name=prefix+idx
-            grammar[name]=[{'terminals':[v],'prob':p} for v,p in items]
+            name = prefix + idx
+
+            grouped = OrderedDict()
+            for v, p in items:
+                grouped.setdefault(p, []).append(v)
+
+            grammar[name] = [
+                {Type.TERMINALS: values, Type.PROB: prob}
+                for prob, values in grouped.items()
+            ]
+
     base_structures=[]
     gd=os.path.join(base_directory,'Grammar')
     if os.path.isdir(gd):
         data=load_indexed_prob(gd,'ASCII')
         for items in data.values():
-            for val,prob in items:
-                reps=[]
-                tok=''
-                for ch in val:
-                    if ch.isalpha():
-                        if tok: reps.append(tok)
-                        tok=ch
+            for value,prob in items:
+                replacements=[]
+                token=''
+                for char in value:
+                    if char.isalpha():
+                        if token: replacements.append(token)
+                        token=char
                     else:
-                        tok+=ch
-                if tok: reps.append(tok)
-                base_structures.append({'prob':prob,'replacements':reps})
-    prince_structures=[]
-    pd=os.path.join(base_directory,'Prince')
-    if os.path.isdir(pd):
-        data=load_indexed_prob(pd,'ASCII')
-        for items in data.values():
-            for val,prob in items:
-                prince_structures.append({'values':[val],'prob':prob})
+                        token+=char
+                i = 0
+                while i < len(replacements):
+                    if replacements[i].startswith('A') or replacements[i].startswith('H'):
+                        length = replacements[i][1:]
+                        replacements.insert(i + 1, 'C' + length)
+                        i += 1
+                    i += 1
+
+                if token: replacements.append(token)
+                base_structures.append({Type.PROB:prob, Type.REPLACEMENTS :replacements})
     return grammar,base_structures
