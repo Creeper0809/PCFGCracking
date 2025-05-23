@@ -1,2 +1,0 @@
-rkawk	0.5
-cjftn	0.5

@@ -1,2 +1,0 @@
-apple	0.5
-qnpfr	0.5

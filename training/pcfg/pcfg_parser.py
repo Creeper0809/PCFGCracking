@@ -26,7 +26,6 @@ class PCFGParser:
 
     def parse(self,password):
         raw_section_list, found_walks, keyboard_list = detect_keyboard_walk(password)
-        print(raw_section_list)
         self._update_counter_len_indexed(self.count_keyboard,found_walks)
 
         _, raw_section_list = mark_hn_sections(raw_section_list)

@@ -1,13 +1,14 @@
 import copy
+import hashlib
 import math
 import os
 import codecs
-from dataclasses import dataclass
+from collections import deque
 from enum import Enum
 from typing import List
 
 import Constants
-from guess.pcfg_io import load_pcfg_data
+from guess.pcfg_io import load_pcfg_data_from_sqlite
 
 
 class Type(str, Enum):
@@ -32,20 +33,42 @@ class TreeItem:
 
 
 class PCFGGuesser:
-    def __init__(self):
+    def __init__(self, config):
         self.output_filename = None
         self.output_file = None
         self.print_guess = print
-
-        self.grammar, self.base_structure = load_pcfg_data(
-            base_directory=Constants.TRAINED_DATA_PATH,
-            encoding="utf-8"
+        self.log = config["log"]
+        self.grammar, self.base_structure = load_pcfg_data_from_sqlite(
+            db_path= os.path.join(Constants.BASE_PATH,"sqlite3.db")
         )
-        print("-"*40)
-        print("terminal load...")
-        for label, z in self.grammar.items():
-            print(label, z)
-        print("-"*40)
+
+        self.hash_algo = config.get("mode", "md5")
+        self.target_hashes = set()
+        self.found = dict()
+        if config.get("hashfile"):
+            with open(config["hashfile"], encoding="utf-8") as f:
+                self.target_hashes = {line.strip() for line in f if line.strip()}
+
+
+        self.recent_guesses = deque(maxlen=10)
+        self.print_guess = self._record_and_compare
+
+        if self.log:
+            print("-" * 40)
+            print("terminal load...")
+            for label, z in self.grammar.items():
+                print(label, z)
+            print("-" * 40)
+
+    def _record_and_compare(self, guess: str):
+
+        self.recent_guesses.append(guess)
+
+        digest = getattr(hashlib, self.hash_algo)(guess.encode()).hexdigest()
+
+        if digest in self.target_hashes:
+            self.found[digest] = guess
+            self.target_hashes.remove(digest)
 
     def save_to_file(self, filename: str):
         if self.output_file:
@@ -63,6 +86,16 @@ class PCFGGuesser:
         else:
             self.output_file = None
             self.print_guess = print
+
+    def _compare_and_print(self, guess: str):
+        #print(guess)
+
+        digest = getattr(hashlib, self.hash_algo)(guess.encode()).hexdigest()
+        if digest not in self.target_hashes:
+            return
+
+        self.found[digest] = guess
+        self.target_hashes.remove(digest)
 
     def shutdown(self):
         if self.output_file:

@@ -1,49 +1,44 @@
 import heapq
-
-from guess.pcfg_guesser import PCFGGuesser
+from guess.pcfg_guesser import PCFGGuesser, TreeItem
 
 
 class QueueItem:
-    def __init__(self, node):
+    def __init__(self, node: TreeItem):
         self.node = node
 
-    def __lt__(self, other):
-        return self.node.prob > other.node.prob
+    def __lt__(self, other):   return self.node.prob > other.node.prob
 
-    def __le__(self, other):
-        return self.node.prob >= other.node.prob
+    def __le__(self, other):   return self.node.prob >= other.node.prob
 
-    def __eq__(self, other):
-        return self.node.prob == other.node.prob
+    def __eq__(self, other):   return self.node.prob == other.node.prob
 
-    def __ne__(self, other):
-        return self.node.prob != other.node.prob
+    def __ne__(self, other):   return self.node.prob != other.node.prob
 
-    def __gt__(self, other):
-        return self.node.prob < other.node.prob
+    def __gt__(self, other):   return self.node.prob < other.node.prob
 
-    def __ge__(self, other):
-        return self.node.prob <= other.node.prob
+    def __ge__(self, other):   return self.node.prob <= other.node.prob
+
 
 class PcfgQueue:
-    def __init__(self, pcfg : PCFGGuesser):
+    def __init__(self, pcfg: PCFGGuesser):
         self.pcfg = pcfg
-        self.queue = []
-        self.max_probability = 1.0
-        self.min_probability = 0.0
-        self.max_queue_size = 50000
+        self._heap: list[QueueItem] = []
+        for base in self.pcfg.initialize_base_structures():
+            heapq.heappush(self._heap, QueueItem(base))
 
-        for base_item in self.pcfg.initialize_base_structures():
-            heapq.heappush(self.queue, QueueItem(base_item))
-
-    def next(self):
-        if not self.queue:
+    def pop(self) -> TreeItem | None:
+        if not self._heap:
             return None
+        qi = heapq.heappop(self._heap)
+        return qi.node
 
-        queue_item = heapq.heappop(self.queue)
-        self.max_probability = queue_item.node.prob
+    def push(self, node: TreeItem):
+        heapq.heappush(self._heap, QueueItem(node))
 
-        for child in self.pcfg.find_children(queue_item.node):
-            heapq.heappush(self.queue, QueueItem(child))
-
-        return queue_item.node
+    def next(self) -> TreeItem | None:
+        node = self.pop()
+        if node is None:
+            return None
+        for child in self.pcfg.find_children(node):
+            self.push(child)
+        return node

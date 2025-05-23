@@ -1,2 +1,0 @@
-p@$$w0rd	0.5
-password	0.5

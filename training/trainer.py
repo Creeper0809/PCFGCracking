@@ -5,10 +5,10 @@ from collections import Counter
 
 import Constants
 from training.omen.omen_parser import AlphabetGrammar, find_omen_level
+from training.omen.omen_train_data_output import save_omen_to_sqlite
+from training.pcfg.pcfg_output import save_pcfg_to_sqlite
 from training.pcfg.pcfg_parser import PCFGParser
 from training.omen.evaluate_password import calc_omen_keyspace
-from training.omen.omen_train_data_output import save_omen_rules_to_disk
-from training.pcfg.pcfg_output import save_pcfg_data
 from training.io.train_data_parser import TrainingDataParser
 from training.pcfg.word_trie import WordTrie
 
@@ -116,24 +116,22 @@ def start_train():
             markov_prob = (file_input.num_passwords / markov_proportion) - file_input.num_passwords
             pcfg_parser.count_base_structures['M'] = markov_prob
 
-    base_directory = Constants.TRAINED_DATA_PATH
+    base_directory = Constants.BASE_PATH
 
-    if not save_omen_rules_to_disk(
+    if not save_pcfg_to_sqlite(
+        pcfg_parser=pcfg_parser,
+        db_path= os.path.join(base_directory, "sqlite3.db")
+    ):
+        print("PCFG 데이터 저장 중 에러")
+
+    if not save_omen_to_sqlite(
             alphabet_grammar=omen,
             omen_keyspace=omen_keyspace,
             omen_levels_count=omen_level_counter,
             num_valid_passwords=file_input.num_passwords,
-            base_directory=base_directory,
+            db_path= os.path.join(base_directory, "sqlite3.db"),
             program_info=program_info
     ):
         print("OMEN 데이터 저장 중 에러")
-
-    if not save_pcfg_data(
-            base_directory=base_directory,
-            pcfg_parser=pcfg_parser,
-            encoding=program_info['encoding']
-    ):
-        print("PCFG 데이터 저장 중 에러")
-
 
 start_train()

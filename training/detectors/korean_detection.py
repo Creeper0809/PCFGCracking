@@ -1,13 +1,24 @@
 import functools
 import math
 import os.path
+import sqlite3
 
 import Constants
-from korean_dict.io.save_load import load_word_probs
 
+# ✅ SQLite에서 확률 불러오기
+def load_word_probs_from_sqlite():
+    db_path = os.path.join(Constants.BASE_PATH, "sqlite3.db")
+    conn = sqlite3.connect(db_path)
+    cur = conn.cursor()
+    cur.execute("SELECT token, probability FROM UnigramProbs")
+    rows = cur.fetchall()
+    conn.close()
+    return {token: prob for token, prob in rows}
 
-probs = load_word_probs(os.path.join(Constants.KOREAN_DICT_PATH,"unigram_probs.json"))
+# ✅ 확률 데이터 불러오기
+probs = load_word_probs_from_sqlite()
 
+# ✅ 역인덱스 buckmap 구축
 key_map = {h for h in probs.keys()}
 buckmap = {}
 for rom in key_map:
@@ -35,7 +46,7 @@ def get_original(roman: str) -> str | None:
 
 def get_korean_caps_mask(segmentations):
     masks = []
-    for txt,label in segmentations:
+    for txt, label in segmentations:
         if label is not None and label.startswith("H"):
             original = get_original(txt)
             mask = ''
@@ -68,7 +79,6 @@ def segment_word(
         best_score, best_seq = -math.inf, []
         for j in range(max(0, i - max_len), i):
             seg = text[j:i]
-
             original = get_original(seg)
             is_known = original is not None
             lp_seg = math.log(probs[original]) if is_known else log_unk * len(seg)
@@ -93,7 +103,7 @@ def mark_hn_sections(sections):
     temp_sections = []
     for txt, lbl in sections:
         if lbl is None:
-            for txt2,lbl2 in segment_word(txt):
+            for txt2, lbl2 in segment_word(txt):
                 temp_sections.append((txt2, lbl2))
                 if lbl2 is not None and lbl2.startswith("H"):
                     out.append(txt2)
@@ -102,8 +112,7 @@ def mark_hn_sections(sections):
     return out, temp_sections
 
 if __name__ == "__main__":
-    print("minjaeminajae : ",segment_word("minjaeminjae"))
-    print("p@$$w0rd2024!sual : ",segment_word("p@$$w0rd2024!sual0ve"))
-    print("anfrlaclalswo : ",segment_word("anfrlaclalswo"))
-
-    print("d", get_original("RKaSid"))
+    print("minjaeminajae : ", segment_word("minjaeminjae"))
+    print("p@$$w0rd2024!sual : ", segment_word("p@$$w0rd2024!sual0ve"))
+    print("anfrlaclalswo : ", segment_word("anfrlaclalswo"))
+    print("get_original test:", get_original("RKaSid"))
