@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 import argparse
 import os
-import sys
 from os import cpu_count
 
-from guess.crack import CrackSession
+from lib.guess.crack import CrackSession
+
 
 def valid_hash_file(path):
     if not path.lower().endswith('.hash'):
@@ -12,6 +12,7 @@ def valid_hash_file(path):
     if not os.path.isfile(path):
         raise argparse.ArgumentTypeError(f"No such file: {path}")
     return path
+
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -80,24 +81,22 @@ def parse_args():
 
     return args
 
+
 def main():
     args = parse_args()
 
     config = {
-        "mode":        args.mode,
+        "mode": args.mode,
         "attack_mode": args.attack_mode,
-        "pw_min":      args.pw_min,
-        "pw_max":      args.pw_max,
-        "core":        args.core,
-        "log":         args.log,
-        "hashfile":    args.hash_file,
+        "pw_min": args.pw_min,
+        "pw_max": args.pw_max,
+        "core": args.core,
+        "log": args.log,
+        "hashfile": args.hash_file,
     }
 
-    session = CrackSession(config=config)
-    if args.core == 1:
-        session.start_guess(config=config)
-    else:
-        session.start_parallel_guess(config)
+    CrackSession(config=config).start_parallel_guess()
+
 
 if __name__ == "__main__":
     main()
