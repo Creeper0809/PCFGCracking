@@ -1,6 +1,7 @@
 import sys
 
 from lib.training.util.english import normalize_leet
+from lib.training.util.korean import get_original
 
 sys.setrecursionlimit(10000000)
 
@@ -26,9 +27,7 @@ class WordTrie:
     #                                 Internal Word Commit Method
     #=======================================================================================================
     def _commit_word(self, root_node: WordNode, string: str, offset: int = 0):
-        # 문자열을 소문자로 변환하여 Trie에 삽입 << 대문자 마스킹은 이미 되었기 때문
         node = root_node
-        string = string.lower()
         for char in string:
             if char not in node.child:
                 node.child[char] = WordNode()
@@ -44,10 +43,10 @@ class WordTrie:
         for string, label in section_list:
             if label.startswith('H'):
                 # 한글 단어 추가
-                self._commit_word(self.korean_root_node, string)
+                self._commit_word(self.korean_root_node, get_original(string))
             elif label.startswith('A'):
                 # 알파벳 단어 추가
-                self._commit_word(self.alpha_root_node, string)
+                self._commit_word(self.alpha_root_node, string.tolower())
                 # Leet 변환 문자열도 추가 학습
                 leet_str = normalize_leet(string)
                 if leet_str != string:
