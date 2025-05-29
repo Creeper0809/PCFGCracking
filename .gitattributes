@@ -1,0 +1,2 @@
+/lib/data/korean_dict.db filter=lfs diff=lfs merge=lfs -text
+sqlite3.db filter=lfs diff=lfs merge=lfs -text
