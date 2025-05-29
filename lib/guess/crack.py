@@ -124,19 +124,33 @@ class CrackSession:
             elapsed = int(time.time() - start_ts)
             tbl = Table(
                 title=f"PCFG Cracking Status (mode:{self.config['mode']})",
+                title_style="bold white on dark_blue",
                 box=ROUNDED, border_style="bright_blue",
-                header_style="bold cyan", expand=True
+                header_style="bold cyan", expand=True,
+                show_lines=True,pad_edge=True,
+                show_edge=True,
             )
+            # 컬럼 정의
             tbl.add_column("Hash", style="magenta", no_wrap=True)
             tbl.add_column("Status", style="yellow", justify="center")
             tbl.add_column("Plaintext", style="green")
             tbl.add_column("Elapsed", style="cyan")
+
             for h in hashes:
                 if h in found:
-                    tbl.add_row(h, "[green]Cracked", found[h][0], f"{found[h][1]:.2f}s")
+                    status = "[green]Cracked"
+                    plaintext = found[h][0]
+                    elapsed_s = f"{found[h][1]:.2f}s"
                 else:
-                    tbl.add_row(h, "[red]Pending", "", "")
-            tbl.caption = f"Finished: {len(found)}/{len(hashes)}    Generated: {in_progress}    Elapsed: {elapsed}s"
+                    status = "[red]Pending"
+                    plaintext = ""
+                    elapsed_s = ""
+                tbl.add_row(h, status, plaintext, elapsed_s)
+
+            tbl.caption = (
+                f"Finished: {len(found)}/{len(hashes)}    "
+                f"Generated: {in_progress}    Elapsed: {elapsed}s"
+            )
             return tbl
 
         # 최근 추측 패널 함수
