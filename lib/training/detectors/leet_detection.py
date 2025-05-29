@@ -1,13 +1,3 @@
-'''
-leet_utils.py
-
-텍스트 내 1337(리트) 변환을 탐지하고 분할하는 유틸리티입니다.
-- find_leet_words: 리트 단어와 그 디코딩된 형태를 찾습니다
-- leet_segment: 입력 문자열을 리트 단어와 일반 텍스트로 분할합니다
-- all_merge_combinations: 인접 세그먼트를 다양한 병합 패턴으로 합칩니다
-- comb_leets_sections: 리트/비리트 변형을 결합한 모든 유효 분할을 생성합니다
-'''
-
 from itertools import product
 from typing import List, Tuple, Optional
 
