@@ -1,4 +1,4 @@
-def detect_digits(section):
+def _detect_digits(section):
     working_string = section[0]
     parsing = []
     is_run = False
@@ -34,7 +34,7 @@ def digit_detection(section_list):
 
         if section_list[index][1] is None:
 
-            parsing, digit_string = detect_digits(section_list[index])
+            parsing, digit_string = _detect_digits(section_list[index])
 
             if digit_string is not None:
                 digit_list.append(digit_string)

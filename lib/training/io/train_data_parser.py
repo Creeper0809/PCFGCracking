@@ -9,6 +9,7 @@ class TrainingDataParser:
         self.encoding = encoding
         self.filedir = filedir
         self.num_passwords = 0
+        self.table_name = 'password_train_data_filtered'
         if filedir.lower().endswith('.db'):
             self._mode = 'db'
             self._conn = sqlite3.connect(filedir)
@@ -31,7 +32,7 @@ class TrainingDataParser:
 
     def count_passwords(self) -> int:
         if self._mode == 'db':
-            self._cur.execute('SELECT COUNT(*) FROM password_train_data')
+            self._cur.execute(f'SELECT COUNT(*) FROM {self.table_name}')
             return self._cur.fetchone()[0]
         count = 0
         with open(self._file_path, 'r', encoding=self.encoding) as f:
@@ -52,7 +53,7 @@ class TrainingDataParser:
 
     def read_password(self) -> Iterator[str]:
         if self._mode == 'db':
-            self._cur.execute('SELECT password FROM password_train_data')
+            self._cur.execute(f'SELECT password FROM {self.table_name}')
             for (pwd,) in self._cur:
                 self.num_passwords += 1
                 if self.check_valid(pwd):

@@ -31,7 +31,7 @@ def detect_keyboard_walk(password: str, min_run: int = 4
     i = 0
 
     while i < n:
-        start_map = find_keyboard_row_column(password[i], keyboards)
+        start_map = find_keyboard_row_column(password[i].lower(), keyboards)
         run_len = 0
         run_layouts = set()
 
@@ -40,7 +40,7 @@ def detect_keyboard_walk(password: str, min_run: int = 4
             prev_pos = {L: start_map[L] for L in run_layouts}
             j = i + 1
             while j < n and run_layouts:
-                nxt = password[j]
+                nxt = password[j].lower()
                 nxt_map = find_keyboard_row_column(nxt, keyboards)
                 new_runs = {
                     L for L in run_layouts
@@ -77,3 +77,4 @@ def detect_keyboard_walk(password: str, min_run: int = 4
             layouts.append(l)
 
     return sections, found, layouts
+
