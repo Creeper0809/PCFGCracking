@@ -103,8 +103,8 @@ PCFGCracking/
     │   │   │   └── word_parser.py
     │   │   └── io/          # 사전 입출력(parse_loanword, save_load)
     │   ├── util/           # 데이터 전처리 및 학습 도우미
-    │   │   ├── post_clean_data.py
-    │   │   └── training_by_dataset.py
+    │   │   ├── korean.py
+    │   │   └── english.py
     │   ├── omen/           # OMEN 학습 보조
     │   │   ├── evaluate_password.py
     │   │   └── omen_parser.py
