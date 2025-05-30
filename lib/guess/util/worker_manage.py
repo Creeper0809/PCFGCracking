@@ -69,6 +69,7 @@ class WorkerManager:
         4) 자식 노드 리스트 반환
         """
         if EXIT_EVENT.is_set():
+            pcfg_worker.is_exit = True
             return [], []  # 종료 시 빈 결과 반환
         buf, out = [], []
         try:

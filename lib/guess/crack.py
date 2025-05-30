@@ -1,3 +1,4 @@
+import sys
 import threading
 import time
 from collections import deque
@@ -130,6 +131,7 @@ class PCFGSession:
         console.print(
             f"[bold green]Done![/] {len(self.found)}/{len(self.hashes)} cracked in {time.time() - self.start_ts:.1f}s generated {self.generated}"
         )
+        console.clear()
 
 
 #=======================================================================================================

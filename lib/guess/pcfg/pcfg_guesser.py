@@ -26,7 +26,6 @@ class Type(str, Enum):
 
 class Structure:
     """단일 구조(symbol, index)를 표현하는 클래스"""
-
     def __init__(self, symbol: str, index: int):
         self.symbol = symbol
         self.index = index
@@ -34,7 +33,6 @@ class Structure:
 
 class TreeItem:
     """트리 탐색 시점마다 확률과 구조 목록을 저장하는 노드"""
-
     def __init__(self):
         self.base_prob: float = 1.0
         self.structures: List[Structure] = []
@@ -65,6 +63,8 @@ class PCFGGuesser:
             print("[PCFGGuesser] Loaded grammar entries:")
             for lbl, ents in self.grammar.items(): print(lbl, ents)
         self.made_password: int = 0
+
+        self.is_exit = False
 
     def initialize_base_structures(self) -> List[TreeItem]:
         items: List[TreeItem] = []
@@ -127,6 +127,10 @@ class PCFGGuesser:
             self.made_password += 1
             yield current
             return
+
+        if self.is_exit:
+            return
+
         base = structures[0]
         cat = base.symbol[0]
         # Markov
@@ -134,7 +138,7 @@ class PCFGGuesser:
             level = int(self.grammar[base.symbol][base.index][Type.TERMINALS][0])
             markov = MarkovGuesser(self.omen_grammar, level, self.omen_optimizer)
             nxt = markov.next_guess()
-            while nxt is not None:
+            while nxt is not None and not self.is_exit:
                 self.made_password += 1
                 yield nxt
                 nxt = markov.next_guess()
