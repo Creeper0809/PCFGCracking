@@ -3,7 +3,7 @@ import argparse
 import os
 from os import cpu_count
 
-from lib.guess.crack import CrackSession
+from lib.guess.crack import PCFGJohnSession, PCFGSession
 
 
 def valid_hash_file(path):
@@ -57,6 +57,13 @@ def parse_args():
         help="Number of parallel workers",
         default=1
     )
+
+    parser.add_argument(
+        "--use-john",
+        action="store_true",
+        help="Use john cracker"
+    )
+
     parser.add_argument(
         "-l", "--log",
         action="store_true",
@@ -93,9 +100,12 @@ def main():
         "core": args.core,
         "log": args.log,
         "hashfile": args.hash_file,
+        "use_john": args.use_john,
     }
-
-    CrackSession(config=config).start_parallel_guess()
+    if args.use_john:
+        PCFGJohnSession(config).run()
+    else:
+        PCFGSession(config=config).run()
 
 
 if __name__ == "__main__":

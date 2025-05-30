@@ -1,227 +1,150 @@
-# =====================
-# Imports and Globals
-# =====================
-import sys
-import time
 import threading
-import queue as std_queue
+import time
 from collections import deque
-from concurrent.futures import ProcessPoolExecutor, wait, FIRST_COMPLETED
-from multiprocessing import Queue, Manager, current_process
+from multiprocessing import Manager, Queue
+from pathlib import Path
+from queue import Empty as QueueEmpty
 
 from readchar import readkey
 from rich.live import Live
-from rich.console import Console, Group
-from rich.columns import Columns
-from rich.panel import Panel
-from rich.table import Table
-from rich.text import Text
-from rich.box import ROUNDED, SIMPLE
 
-from lib.guess.pcfg.pcfg_guesser import PCFGGuesser, TreeItem
+from lib.guess.util.flush import MemoryBufferManager, JohnBufferManager
+from lib.guess.pcfg.pcfg_guesser import PCFGGuesser
+from lib.guess.ui.ui_render import TUIRenderer
 from lib.guess.util.priority_queue import PcfgQueue
+from lib.guess.util.worker_manage import WorkerManager
 
-# 전역 변수 선언
-pcfg_worker = None
-GUESS_QUEUE = None
-WORKER_STATUS = None
-EXIT_EVENT = None
-LIVE = None
 
-# =====================
-# Worker Initialization
-# =====================
-def _init_worker(config, guess_queue, status_dict, exit_event):
-    # 워커 프로세스에서 사용될 PCFGGuesser, 공유 큐, 상태 딕셔너리, 종료 이벤트 설정
-    global pcfg_worker, GUESS_QUEUE, WORKER_STATUS, EXIT_EVENT
-    pcfg_worker = PCFGGuesser(config=config)
-    GUESS_QUEUE = guess_queue
-    WORKER_STATUS = status_dict
-    EXIT_EVENT = exit_event
+#=======================================================================================================
+#                                PCFG 세션 관리 클래스 정의
+#=======================================================================================================
+class PCFGSession:
+    #----------------------------------------------------------------------------------
+    # 초기화 및 상태 변수 설정
+    # config: 설정 딕셔너리 (hashfile 경로, session 이름, 코어 수 등)
+    #----------------------------------------------------------------------------------
+    def __init__(self, config: dict):
+        self.cfg = config
+        self.hashfile = Path(config.get("hashfile", ""))
+        self.session = config.get("session", "pcfg_mem")
+        self.start_ts = time.time()
+        self.hashes = self._load_hashes()
 
-# =====================
-# Input Handling
-# =====================
-def _keypress(pcfg, exit_event):
-    # 사용자 키 입력을 비동기적으로 처리
-    global LIVE
-    while True:
-        ch = readkey()
-        if ch.lower() == 'q':
-            print("Exiting...")
-            exit_event.set()
-            break
-        elif ch.lower() == 'r':
-            # Live 인스턴스가 있을 때 강제 리프레시
-            if LIVE:
-                LIVE.refresh()
+        # 추적할 결과 및 통계
+        self.found = {}                             # 찾은 해시 → (비밀번호, 걸린 시간, 시도 수)
+        self.recent = deque(maxlen=10)              # 최근 생성된 비밀번호 히스토리
+        self.generated = 0                          # 총 생성된 비밀번호 수
+        self.current_prob = 0.0                     # 현재 확률 상태
 
-# =====================
-# Node Processing
-# =====================
-def _process_node(node: TreeItem):
-    # 종료 이벤트가 설정되면 즉시 반환
-    if EXIT_EVENT.is_set():
-        return [], []
-    # 기존 출력 함수 보관
-    orig_print = pcfg_worker.print_guess
+        # 동기화 및 큐
+        mgr = Manager()
+        self.guess_q = Queue()                      # 워커에서 생성된 비밀번호 수집용 큐
+        self.exit_evt = mgr.Event()                 # 종료 신호 이벤트
+        self.targets = set(self.hashes)             # 남은 타겟 해시 집합
 
-    def wrap_guess(guess: str):
-        # 종료 이벤트 중간 확인 및 예외 발생
-        if EXIT_EVENT.is_set():
-            pcfg_worker.exit_now = True
-            raise InterruptedError()
-        # 새 추측을 큐에 추가하고 워커 상태 업데이트
-        GUESS_QUEUE.put(guess)
-        WORKER_STATUS[current_process().name] = pcfg_worker.made_password
-        orig_print(guess)
-
-    # 출력 래핑
-    pcfg_worker.print_guess = wrap_guess
-    try:
-        # 실제 추측 수행
-        pcfg_worker.guess(node.structures)
-    except InterruptedError:
-        children, matches = [], []
-    else:
-        # 자식 노드 및 매치 결과 조회
-        children = pcfg_worker.find_children(node)
-        matches = list(pcfg_worker.found.items())
-    # 출력 함수 복원
-    pcfg_worker.print_guess = orig_print
-    return children, matches
-
-# =====================
-# UI and Main Loop
-# =====================
-class CrackSession:
-    def __init__(self, config):
-        # 메인 PCFGGuesser 인스턴스 설정
-        self.pcfg = PCFGGuesser(config=config)
-        self.config = config
-
-    def start_parallel_guess(self):
-        console = Console()
-        hashes = list(self.pcfg.target_hashes)
-        found = {}
-        recent_guesses = deque(maxlen=10)
-        start_ts = time.time()
-        now_prob = 0.0
-
-        # 프로세스간 통신용 매니저 객체 생성
-        manager = Manager()
-        guess_queue = Queue()
-        status_dict = manager.dict()
-        exit_event = manager.Event()
-
-        # 키 입력 스레드 시작
-        user_thread = threading.Thread(target=_keypress, args=(self.pcfg, exit_event))
-        user_thread.daemon = True
-        user_thread.start()
-
-        # 테이블 생성 함수
-        def make_main_table(in_progress):
-            elapsed = int(time.time() - start_ts)
-            tbl = Table(
-                title=f"PCFG Cracking Status (mode:{self.config['mode']})",
-                title_style="bold white on dark_blue",
-                box=ROUNDED, border_style="bright_blue",
-                header_style="bold cyan", expand=True,
-                show_lines=True,pad_edge=True,
-                show_edge=True,
-            )
-            # 컬럼 정의
-            tbl.add_column("Hash", style="magenta", no_wrap=True)
-            tbl.add_column("Status", style="yellow", justify="center")
-            tbl.add_column("Plaintext", style="green")
-            tbl.add_column("Elapsed", style="cyan")
-
-            for h in hashes:
-                if h in found:
-                    status = "[green]Cracked"
-                    plaintext = found[h][0]
-                    elapsed_s = f"{found[h][1]:.2f}s"
-                else:
-                    status = "[red]Pending"
-                    plaintext = ""
-                    elapsed_s = ""
-                tbl.add_row(h, status, plaintext, elapsed_s)
-
-            tbl.caption = (
-                f"Finished: {len(found)}/{len(hashes)}    "
-                f"Generated: {in_progress}    Elapsed: {elapsed}s"
-            )
-            return tbl
-
-        # 최근 추측 패널 함수
-        def make_recent_panel():
-            body = "\n".join(recent_guesses) or "[dim]No guesses yet"
-            return Panel(
-                body, title=f"Recent Guesses (prob: {now_prob:.3f})",
-                box=SIMPLE, expand=False
-            )
-
-        # Live 화면 설정 (alternate buffer)
-        with Live(console=console, refresh_per_second=1, screen=True) as live:
-            global LIVE
-            LIVE = live
-            queue = PcfgQueue(pcfg=self.pcfg)
-
-            # 초기 레이아웃
-            layout = Group(
-                Columns([make_main_table(0), make_recent_panel()], expand=True),
-                Text("Press 'q' to exit or 'r' to refresh", style="bold yellow", justify="center")
-            )
-            live.update(layout)
-
-            # 워커 풀 및 메인 루프
-            with ProcessPoolExecutor(
-                max_workers=self.config['core'],
-                initializer=_init_worker,
-                initargs=(self.config, guess_queue, status_dict, exit_event)
-            ) as exe:
-                in_flight = {}
-                while not exit_event.is_set() and len(found) < len(hashes):
-                    # 키 입력 폴링
-                    if exit_event.is_set():
-                        break
-                    # 워커에 노드 제출
-                    while len(in_flight) < self.config['core']:
-                        node = queue.pop()
-                        if not node:
-                            break
-                        now_prob = node.prob
-                        fut = exe.submit(_process_node, node)
-                        in_flight[fut] = node
-                    # 완료된 태스크 처리 또는 1초 후 리턴
-                    done, _ = wait(in_flight, timeout=1, return_when=FIRST_COMPLETED)
-                    for fut in done:
-                        in_flight.pop(fut)
-                        children, matches = fut.result()
-                        for dg, pw in matches:
-                            if dg not in found:
-                                found[dg] = (pw, time.time() - start_ts)
-                        for c in children:
-                            queue.push(c)
-                    # 큐에서 새로운 guess 수집
-                    try:
-                        while True:
-                            recent_guesses.append(guess_queue.get_nowait())
-                    except std_queue.Empty:
-                        pass
-                    # 진행 현황 업데이트
-                    in_progress = sum(status_dict.values())
-                    layout = Group(
-                        Columns([make_main_table(in_progress), make_recent_panel()], expand=True),
-                        Text("Press 'q' to exit or 'r' to refresh", style="bold yellow", justify="center")
-                    )
-                    live.update(layout)
-
-        # 종료 후 최종 화면 출력
-        end_ts = time.time()
-        layout = Group(
-            Columns([make_main_table(in_progress), make_recent_panel()], expand=True),
-            Text("Press 'q' to exit or 'r' to refresh", style="bold yellow", justify="center")
+        # 구성요소 초기화
+        self.worker = WorkerManager(config, self.guess_q, self.exit_evt, self.targets)
+        self.buffer = MemoryBufferManager(
+            config.get("buffer_size", 1000), self.targets, config.get("mode", "md5")
         )
-        console.print(layout)
-        console.print(f"[bold green]Finished[/] — cracked {len(found)}/{len(hashes)} hashes in {end_ts - start_ts:.2f}s")
+        self.ui = TUIRenderer(self.hashes, config)
+
+        # 키 입력 쓰레드 (q 입력 시 종료)
+        threading.Thread(target=self._keypress, daemon=True).start()
+
+    #----------------------------------------------------------------------------------
+    # 해시 파일 로드: 파일이 존재하면 각 줄의 해시를 집합으로 반환
+    #----------------------------------------------------------------------------------
+    def _load_hashes(self):
+        if not self.hashfile.is_file():
+            return set()
+        return {ln.strip() for ln in self.hashfile.open(encoding="utf-8") if ln.strip()}
+
+    #----------------------------------------------------------------------------------
+    # 키 입력 처리: 'q' 입력 시 종료 이벤트 설정
+    #----------------------------------------------------------------------------------
+    def _keypress(self):
+        while True:
+            if readkey().lower() == 'q':
+                self.exit_evt.set()
+                break
+
+    #----------------------------------------------------------------------------------
+    # 세션 실행: 워커 시작, 노드 제출, 결과 수집, TUI 업데이트, 종료 처리
+    #----------------------------------------------------------------------------------
+    def run(self):
+        console = self.ui.console
+        self.worker.start()
+
+        # Live 화면 모드
+        with Live(self.ui.initial(self), console=console, refresh_per_second=1, screen=True) as live:
+            queue = PcfgQueue(pcfg=PCFGGuesser(config=self.cfg))
+
+            while not self.exit_evt.is_set():
+                # 1) 모든 해시를 찾았으면 종료
+                if len(self.found) >= len(self.hashes):
+                    self.exit_evt.set()
+                    self.worker.cancel_all()
+                    self.worker.shutdown()
+                    break
+
+                # 2) 워커에 처리할 노드 제출 (코어 수 제한)
+                while len(self.worker.inflight) < self.cfg.get("core", 4):
+                    nd = queue.pop()
+                    if not nd:
+                        break
+                    self.current_prob = nd.prob
+                    self.worker.submit(nd)
+
+                # 3) 워커로부터 결과 수집 (자식 노드, 매칭된 비밀번호)
+                for children, matches in self.worker.collect():
+                    # 3-1) 매칭된 해시 처리
+                    for d, pw in matches:
+                        if d not in self.found:
+                            self.found[d] = (pw, time.time() - self.start_ts, self.generated)
+                    # 3-2) 새 노드 큐에 추가
+                    for c in children:
+                        queue.push(c)
+
+                # 4) guess_q 에서 생성 비밀번호 꺼내 recent 및 버퍼에 추가
+                try:
+                    while True:
+                        pw = self.guess_q.get_nowait()
+                        self.recent.append(pw)
+                        self.buffer.add(pw)
+                        self.generated += 1
+                except QueueEmpty:
+                    pass
+
+                # 5) 버퍼 플러시 시 실제 found 처리
+                if self.buffer.should_flush():
+                    for d, pw in self.buffer.flush():
+                        if d not in self.found:
+                            self.found[d] = (pw, time.time() - self.start_ts, self.generated)
+
+                # 6) UI 업데이트
+                live.update(self.ui.update())
+
+        # 종료 후 최종 레이아웃 및 결과 출력
+        console.print(self.ui.layout(self.generated))
+        console.print(
+            f"[bold green]Done![/] {len(self.found)}/{len(self.hashes)} cracked in {time.time() - self.start_ts:.1f}s generated {self.generated}"
+        )
+
+
+#=======================================================================================================
+#                           John 모드 확장: PCFGSession 상속 클래스
+#=======================================================================================================
+class PCFGJohnSession(PCFGSession):
+    #----------------------------------------------------------------------------------
+    # JohnBufferManager 사용하도록 버퍼 및 targets 재설정
+    #----------------------------------------------------------------------------------
+    def __init__(self, config: dict):
+        super().__init__(config)
+        mgr = Manager()
+        self.targets = mgr.list(self.hashes)
+        self.buffer = JohnBufferManager(
+            config.get("buffer_size", 1000),
+            self.hashfile,
+            self.session
+        )
