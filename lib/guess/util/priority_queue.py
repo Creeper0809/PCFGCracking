@@ -28,3 +28,15 @@ class PcfgQueue:
 
     def push(self, node: TreeItem):
         heapq.heappush(self._heap, QueueItem(node))
+
+    def get(self):
+        node = self.pop()
+        if node is None:
+            return None
+
+        for child in self.pcfg.find_children(node):
+            self.push(child)
+
+        return node
+
+
