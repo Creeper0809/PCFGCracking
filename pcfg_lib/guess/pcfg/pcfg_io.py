@@ -45,7 +45,7 @@ def load_pcfg_grammar(db_path):
                     grouped.setdefault(p, []).append(v)
 
                 grammar[name] = [
-                    {Type.TERMINALS: values, Type.PROB: prob}
+                    {Type.TERMINALS: values, Type.PROB: prob,Type.LENGTHS: len(values)}
                     for prob, values in grouped.items()
                 ]
 
