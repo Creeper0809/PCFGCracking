@@ -24,9 +24,9 @@ setup(
     packages=find_packages(include=["pcfg_lib", "pcfg_lib.*"]),
     include_package_data=True,
     package_data={
-        "pcfg_lib": ["*.db", "data/*.db"],
+        "pcfg_lib": ["data/*.db"],
     },
-    data_files=[("", ["sqlite3.db"])],
+    data_files=[("", ["data/*.db"])],
     install_requires=load_requirements("requirements.in"),
     classifiers=[
         "Programming Language :: Python :: 3",
