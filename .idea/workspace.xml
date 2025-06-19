@@ -5,74 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="65cde880-619f-4185-ad4c-ed523d4426ff" name="변경" comment="asd">
-      <change afterPath="$PROJECT_DIR$/pcfg_lib/data/korean_dict.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resource/post_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/Resource/post_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/data/STOPWORD.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/data/STOPWORD.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/data/checkpoint_counts.json" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/data/checkpoint_counts.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/data/checkpoint_done.json" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/data/checkpoint_done.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/data/korean_dict.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/guess/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/guess/crack.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/crack.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/guess/omen/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/omen/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/guess/omen/guess_structure.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/omen/guess_structure.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/guess/omen/markov_guesser.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/omen/markov_guesser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/guess/omen/memorizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/omen/memorizer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/guess/omen/omen_io.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/omen/omen_io.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/guess/pcfg/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/pcfg/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/guess/pcfg/pcfg_guesser.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/pcfg/pcfg_guesser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/guess/pcfg/pcfg_io.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/pcfg/pcfg_io.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/guess/ui/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/ui/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/guess/ui/ui_render.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/ui/ui_render.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/guess/util/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/util/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/guess/util/flush.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/util/flush.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/guess/util/priority_queue.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/util/priority_queue.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/guess/util/worker_manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/util/worker_manage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/paths.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/paths.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/detectors/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/detectors/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/detectors/alphabet_detection.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/detectors/alphabet_detection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/detectors/digit_detection.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/detectors/digit_detection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/detectors/keyboard_walk_detection.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/detectors/keyboard_walk_detection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/detectors/leet_detection.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/detectors/leet_detection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/detectors/other_detection.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/detectors/other_detection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/detectors/word_dectection.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/detectors/word_dectection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/detectors/year_detection.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/detectors/year_detection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/io/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/io/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/io/omen_train_data_output.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/io/omen_train_data_output.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/io/pcfg_output.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/io/pcfg_output.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/io/train_data_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/io/train_data_parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/io/train_output.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/io/train_output.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/korean_dict/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/korean_dict/data_parser/BaseParser.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/data_parser/BaseParser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/korean_dict/data_parser/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/data_parser/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/korean_dict/data_parser/korean_copus_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/data_parser/korean_copus_parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/korean_dict/data_parser/name_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/data_parser/name_parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/korean_dict/data_parser/new_word_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/data_parser/new_word_parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/korean_dict/data_parser/word_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/data_parser/word_parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/korean_dict/io/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/io/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/korean_dict/io/parse_loanword.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/io/parse_loanword.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/korean_dict/io/save_load.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/io/save_load.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/korean_dict/training_by_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/training_by_dataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/korean_dict/util/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/util/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/korean_dict/util/post_clean_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/util/post_clean_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/omen/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/omen/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/omen/evaluate_password.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/omen/evaluate_password.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/omen/omen_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/omen/omen_parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/omen/smoothing.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/omen/smoothing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/pcfg/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/pcfg/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/pcfg/pcfg_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/pcfg/pcfg_parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/pcfg/word_trie.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/pcfg/word_trie.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/trainer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/util/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/util/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/util/english.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/util/english.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/training/util/korean.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/util/korean.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/password_guess.py" beforeDir="false" afterPath="$PROJECT_DIR$/password_guess.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/password_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/password_train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib.egg-info/PKG-INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib.egg-info/SOURCES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib.egg-info/SOURCES.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib.egg-info/requires.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib.egg-info/requires.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib.egg-info/top_level.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib.egg-info/top_level.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
