@@ -61,7 +61,7 @@ class PCFGGuesser:
         self.log = config.get("log", False)
         # PCFG 문법 로드
         self.grammar, self.base_structure = load_pcfg_grammar(
-            db_path=os.path.join(paths.BASE_PATH, "sqlite3.db")
+            db_path=os.path.join(paths.DATA_PATH, "sqlite3.db")
         )
         # OMEN 룰 및 확률 로드
         self.omen_grammar = load_omen_rules(db_path=paths.KOREAN_DICT_DB_PATH)

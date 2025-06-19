@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="65cde880-619f-4185-ad4c-ed523d4426ff" name="변경" comment="asd">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pcfg_lib/guess/pcfg/pcfg_guesser.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/pcfg/pcfg_guesser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sqlite3.db" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/sqlite3.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/sqlite3.db" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/data/sqlite3.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +63,7 @@
       <recent name="C:\Users\creep\PycharmProjects\PCFGCracking" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\creep\PycharmProjects\PCFGCracking\pcfg_lib\data" />
       <recent name="C:\Users\creep\PycharmProjects\PCFGCracking\pcfg_lib" />
     </key>
   </component>
@@ -142,7 +142,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750323010347</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="asd">
+      <option name="closed" value="true" />
+      <created>1750323667018</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1750323667018</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
