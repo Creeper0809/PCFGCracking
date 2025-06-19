@@ -1,6 +1,7 @@
 import sqlite3
 
 def load_omen_rules(db_path):
+    print(db_path)
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
 
