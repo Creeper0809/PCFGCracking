@@ -2,7 +2,7 @@ import os, sqlite3, itertools, requests, time
 from pcfg_lib import paths
 
 SERVICE_KEY = ''
-DB_PATH = os.path.join(paths.KOREAN_PATH, "korean_dict.db")
+DB_PATH = os.path.join(paths.KOREAN_DICT_DB_PATH, "korean_dict.db")
 
 BASE_URL = "https://korean.go.kr/kornorms/exampleReqList.do"
 PARAMS = {
