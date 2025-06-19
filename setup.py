@@ -11,7 +11,7 @@ def load_requirements(filename):
 setup(
     name="pcfg_lib",
     version="0.1",
-    packages=["lib"],
+    packages=find_packages(where=".", exclude=["tests*", "docs*"]),
     package_dir={"": "."},
     include_package_data=True,
     install_requires=load_requirements("requirements.in"),

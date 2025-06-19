@@ -2,9 +2,9 @@ import sqlite3
 from concurrent.futures import ProcessPoolExecutor
 from typing import List, Tuple, Iterable
 
-from lib.training.detectors.korean_detection import segment_word  # noqa: F401 (implicit import for workers)
-from lib.training.pcfg.pcfg_parser import PCFGParser
-from lib.training.pcfg.word_trie import WordTrie
+from pcfg_lib.training.detectors.korean_detection import segment_word  # noqa: F401 (implicit import for workers)
+from pcfg_lib.training.pcfg.pcfg_parser import PCFGParser
+from pcfg_lib.training.pcfg.word_trie import WordTrie
 
 EMAIL_DOMAINS_SKIP = ("naver.com", "hanmail.com")
 BATCH_SIZE = 1000

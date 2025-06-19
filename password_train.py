@@ -4,7 +4,7 @@ import os
 import sys
 from pathlib import Path
 
-import lib.training.trainer
+import pcfg_lib.training.trainer
 
 
 def valid_data_file(path):
@@ -54,7 +54,7 @@ def main():
     args = parse_args()
 
     program_info['data'] = args.data_file
-    lib.training.trainer.start_train(program_info)
+    pcfg_lib.training.trainer.start_train(program_info)
 
 
 if __name__ == "__main__":

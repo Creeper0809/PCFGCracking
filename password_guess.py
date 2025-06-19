@@ -3,7 +3,7 @@ import argparse
 import os
 from os import cpu_count
 
-from lib.guess.crack import PCFGJohnSession, PCFGSession
+from pcfg_lib.guess.crack import PCFGJohnSession, PCFGSession
 
 
 def valid_hash_file(path):
