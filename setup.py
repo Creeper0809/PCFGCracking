@@ -14,7 +14,6 @@ def load_requirements(filename: str) -> list[str]:
             reqs.append(line)
     return reqs
 
-
 setup(
     name="pcfg_lib",
     version="0.1",
@@ -24,6 +23,10 @@ setup(
     url="https://github.com/Creeper0809/PCFGCracking",
     packages=find_packages(include=["pcfg_lib", "pcfg_lib.*"]),
     include_package_data=True,
+    package_data={
+        "pcfg_lib": ["*.db", "data/*.db"],
+    },
+    data_files=[("", ["sqlite3.db"])],
     install_requires=load_requirements("requirements.in"),
     classifiers=[
         "Programming Language :: Python :: 3",

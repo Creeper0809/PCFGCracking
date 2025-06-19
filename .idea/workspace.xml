@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="65cde880-619f-4185-ad4c-ed523d4426ff" name="변경" comment="asd">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pcfg_lib.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib.egg-info/PKG-INFO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pcfg_lib.egg-info/SOURCES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib.egg-info/SOURCES.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pcfg_lib.egg-info/requires.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib.egg-info/requires.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pcfg_lib.egg-info/top_level.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib.egg-info/top_level.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +114,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750308861488</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="asd">
+      <option name="closed" value="true" />
+      <created>1750316073574</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1750316073574</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
