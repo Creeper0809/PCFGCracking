@@ -5,8 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="65cde880-619f-4185-ad4c-ed523d4426ff" name="변경" comment="asd">
+      <change afterPath="$PROJECT_DIR$/asd.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pcfg_lib/guess/pcfg/pcfg_guesser.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/pcfg/pcfg_guesser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/guess/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/guess/omen/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/omen/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/guess/pcfg/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/pcfg/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/guess/ui/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/ui/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/guess/util/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/util/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/detectors/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/detectors/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/io/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/io/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/data_parser/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/data_parser/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/io/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/io/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/util/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/util/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/omen/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/omen/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/pcfg/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/pcfg/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/util/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/util/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,21 +59,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/creep/PycharmProjects/PCFGCracking&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.asd.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/creep/PycharmProjects/PCFGCracking",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\creep\PycharmProjects\PCFGCracking" />
@@ -198,7 +215,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750328766185</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="asd">
+      <option name="closed" value="true" />
+      <created>1750329078464</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1750329078464</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -207,5 +232,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="asd" />
     <option name="LAST_COMMIT_MESSAGE" value="asd" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/PCFGCracking$asd.coverage" NAME="asd 커버리지 결과" MODIFIED="1750329585073" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
