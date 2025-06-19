@@ -14,6 +14,10 @@ def load_requirements(filename: str) -> list[str]:
             reqs.append(line)
     return reqs
 
+
+# If you want to include the root sqlite3.db alongside the package,
+# use data_files to install at top-level of site-packages.
+# Also include any .db inside pcfg_lib (e.g. data/*.db).
 setup(
     name="pcfg_lib",
     version="0.1",
@@ -23,10 +27,10 @@ setup(
     url="https://github.com/Creeper0809/PCFGCracking",
     packages=find_packages(include=["pcfg_lib", "pcfg_lib.*"]),
     include_package_data=True,
+    # Include any .db files inside the pcfg_lib package
     package_data={
-        "pcfg_lib": ["data/*.db"],
+        "pcfg_lib": ["*.db", "data/*.db"],
     },
-    data_files=[("", ["data/*.db"])],
     install_requires=load_requirements("requirements.in"),
     classifiers=[
         "Programming Language :: Python :: 3",
