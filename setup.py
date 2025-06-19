@@ -20,7 +20,7 @@ def load_requirements(filename: str) -> list[str]:
 # Also include any .db inside pcfg_lib (e.g. data/*.db).
 setup(
     name="pcfg_lib",
-    version="0.5",
+    version="0.6",
     author="",
     author_email="",
     description="PCFG-based password guessing library",
