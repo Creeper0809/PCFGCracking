@@ -63,15 +63,14 @@ class PCFGGuesser:
         self.grammar, self.base_structure = load_pcfg_grammar(
             db_path=os.path.join(paths.DATA_PATH, "sqlite3.db")
         )
-        # OMEN 룰 및 확률 로드
-        self.omen_grammar = load_omen_rules(db_path=paths.KOREAN_DICT_DB_PATH)
-        load_omen_prob(
-            dbpath=paths.KOREAN_DICT_DB_PATH,
-            grammar=self.grammar
-        )
         self.omen_optimizer = Memorizer(max_length=4)
         # Markov only 모드
         if config.get("attack_mode",0) == 1:
+            self.omen_grammar = load_omen_rules(db_path=paths.KOREAN_DICT_DB_PATH)
+            load_omen_prob(
+                dbpath=paths.KOREAN_DICT_DB_PATH,
+                grammar=self.grammar
+            )
             self.base_structure = [{Type.PROB: 1.0, Type.REPLACEMENTS: ["M"]}]
         if self.log:
             print("[PCFGGuesser] Loaded grammar entries:")
