@@ -18,7 +18,7 @@ CUSTOM_DICT = {
     "잼민": 100000
 }
 
-DB_PATH = os.path.join(paths.KOREAN_PATH, "korean_dict.db")
+DB_PATH = os.path.join(paths.KOREAN_DICT_DB_PATH, "korean_dict.db")
 
 def load_raw_korean_dict_from_db() -> Counter:
     conn = sqlite3.connect(DB_PATH)
