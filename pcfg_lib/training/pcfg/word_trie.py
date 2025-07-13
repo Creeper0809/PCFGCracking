@@ -27,6 +27,8 @@ class WordTrie:
     #                                 Internal Word Commit Method
     #=======================================================================================================
     def _commit_word(self, root_node: WordNode, string: str, offset: int = 0):
+        if string is None:
+            return
         node = root_node
         for char in string:
             if char not in node.child:
@@ -46,7 +48,7 @@ class WordTrie:
                 self._commit_word(self.korean_root_node, get_original(string))
             elif label.startswith('A'):
                 # 알파벳 단어 추가
-                self._commit_word(self.alpha_root_node, string.tolower())
+                self._commit_word(self.alpha_root_node, string.lower())
                 # Leet 변환 문자열도 추가 학습
                 leet_str = normalize_leet(string)
                 if leet_str != string:

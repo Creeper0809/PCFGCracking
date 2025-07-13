@@ -6,7 +6,7 @@ from pathlib import Path
 
 from jamo import h2j, j2hcj
 from korean_romanizer import Romanizer
-from eunjeon import Mecab
+#from eunjeon import Mecab
 import YaleKorean
 
 from pcfg_lib import paths
@@ -190,7 +190,7 @@ def load_stopwords(path: str) -> set[str]:
 STOPWORDS = load_stopwords(os.path.join(paths.DATA_PATH, "STOPWORD.txt"))
 # 한글 토큰 정규식 및 형태소 분석기
 RE_HANGUL_TOKEN = re.compile(r"[가-힣]+")
-mecab = Mecab()
+mecab = "asd"#Mecab()
 
 #=======================================================================================================
 # Noun Extraction Section
