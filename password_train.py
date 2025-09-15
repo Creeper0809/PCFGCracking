@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 import pcfg_lib.training.trainer
+from setup import version
 
 
 def valid_data_file(path):
@@ -17,9 +18,9 @@ def valid_data_file(path):
 def parse_args():
     parser = argparse.ArgumentParser(
         prog="password_train",
-        description="PCFG password guess 0.0.1v",
+        description=f"PCFG password guess {version}",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-        epilog="Example: password_guess -m md5 -a 2 --pw-min 6 --pw-max 12 -c 4 candidate.hash"
+        epilog="Example: password_train example.db"
     )
 
     parser.add_argument(
@@ -29,7 +30,6 @@ def parse_args():
     )
 
     args = parser.parse_args()
-
     return args
 
 def main():

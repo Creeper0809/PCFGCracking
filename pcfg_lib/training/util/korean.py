@@ -257,7 +257,7 @@ def is_pure_korean(token):
     # 로마자→자모→한글 변환 후 단일 자모 포함 여부 및 길이 검사
     jamo = roman2jamo(token)
     hang = join_jamos(''.join(jamo)) if jamo else None
-    if hang and not is_contains_single_jamo(hang) and len(hang) > 2:
+    if hang and not is_contains_single_jamo(hang):
         return True
     return False
 
