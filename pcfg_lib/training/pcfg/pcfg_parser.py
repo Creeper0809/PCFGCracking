@@ -1,8 +1,8 @@
 from collections import Counter
 
+from pcfg_lib.training.detectors.word_dectection import detect_dictionary_word
 from pcfg_lib.training.detectors.alphabet_detection import detect_alphabet
 from pcfg_lib.training.detectors.leet_detection import comb_leets_sections
-from pcfg_lib.training.detectors.word_dectection import detect_dictionary_word
 from pcfg_lib.training.pcfg.word_trie import WordTrie
 from pcfg_lib.training.detectors.digit_detection import digit_detection
 from pcfg_lib.training.detectors.keyboard_walk_detection import detect_keyboard_walk
@@ -80,7 +80,9 @@ class PCFGParser:
             base_structure = self._build_base_structure(section)
             self.count_base_structures[base_structure] += 1
 
-            yield section
+            cleaned_section = self.post_section(section)
+
+            yield cleaned_section
 
     #=======================================================================================================
     #                                   Word Tree Calculation Section
@@ -111,6 +113,77 @@ class PCFGParser:
             structure += label
         return structure
 
+    def merge_section(self, section_list):
+        """
+        [('P','A1'), ('eddy','A4')]처럼 인접한 섹션의 라벨 타입이 같으면 하나로 병합합니다.
+        """
+        if not section_list:
+            return []
+
+        merged_list = []
+        for current_section in section_list:
+            # 병합 리스트가 비어있거나, 이전 섹션과 타입이 다르면 그냥 추가
+            if (not merged_list or
+                    merged_list[-1][1] is None or current_section[1] is None or
+                    merged_list[-1][1][0] != current_section[1][0]):
+                merged_list.append(current_section)
+            # 이전 섹션과 타입이 같으면 병합
+            else:
+                last_section = merged_list.pop()
+                new_text = last_section[0] + current_section[0]
+                new_label_type = last_section[1][0]
+                new_label = new_label_type + str(len(new_text))
+                merged_list.append((new_text, new_label))
+
+        return merged_list
+
+    def post_section(self, section_list):
+        """
+        A-K-A 또는 K-A-K 패턴을 병합하여 섹션을 후처리합니다.
+        예: [('a', 'A1'), ('가', 'K1'), ('b', 'A1')] -> [('a가b', 'A3')]
+        """
+        if not section_list:
+            return []
+
+        processed_list = []
+        i = 0
+        while i < len(section_list):
+            # 현재 섹션의 레이블이 유효한지 확인
+            if section_list[i][1] is None:
+                processed_list.append(section_list[i])
+                i += 1
+                continue
+
+            # 3개 섹션(i, i+1, i+2)을 확인할 수 있는지 검사
+            if i + 2 < len(section_list):
+                # 각 섹션의 레이블 확인 (None이 아니어야 함)
+                label1 = section_list[i][1]
+                label2 = section_list[i + 1][1]
+                label3 = section_list[i + 2][1]
+
+                if label1 and label2 and label3:
+                    # A-K-A 패턴 검사
+                    if label1.startswith('A') and label2.startswith('K') and label3.startswith('A'):
+                        merged_text = section_list[i][0] + section_list[i + 1][0] + section_list[i + 2][0]
+                        new_label = 'A' + str(len(merged_text))
+                        processed_list.append((merged_text, new_label))
+                        i += 3  # 3개 섹션을 처리했으므로 인덱스를 3 증가
+                        continue
+
+                    # K-A-K 패턴 검사
+                    if label1.startswith('K') and label2.startswith('A') and label3.startswith('K'):
+                        merged_text = section_list[i][0] + section_list[i + 1][0] + section_list[i + 2][0]
+                        new_label = 'K' + str(len(merged_text))
+                        processed_list.append((merged_text, new_label))
+                        i += 3  # 3개 섹션을 처리했으므로 인덱스를 3 증가
+                        continue
+
+            # 병합 패턴에 해당하지 않으면 현재 섹션을 그대로 추가
+            processed_list.append(section_list[i])
+            i += 1
+
+        return self.merge_section(processed_list)
+
     def _commit_word(self, counter, word, count):
         """
         길이 인덱스별 카운터에 단어와 빈도를 추가합니다.
@@ -134,3 +207,7 @@ class PCFGParser:
         """
         for item in input_list:
             self._commit_word(input_counter, item, 1)
+
+if __name__ == '__main__':
+    parser = PCFGParser(word_trie=WordTrie(needed_appear=5))
+    print(*parser.parse("Phamnamsonz1"))

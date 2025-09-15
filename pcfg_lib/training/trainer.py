@@ -197,7 +197,7 @@ def start_train(program_info: dict, chunk_size: int = 10000):
             levels[find_omen_level(omen, pwd)] += 1
             progress2.advance(task2)
 
-    dbfile = str(paths.ROOT_PATH / 'sqlite3.db')
+    dbfile = str(paths.DATA_PATH / 'sqlite3.db')
     save_pcfg_to_sqlite(pcfg_parser=pcfg, db_path=dbfile)
     save_omen_to_sqlite(
         alphabet_grammar=omen,

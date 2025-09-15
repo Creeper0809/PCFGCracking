@@ -5,9 +5,46 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="65cde880-619f-4185-ad4c-ed523d4426ff" name="변경" comment="asd">
-      <change afterPath="$PROJECT_DIR$/asd.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Resource/TrainingData/credentials-3.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Resource/TrainingData/credentials-4.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/PCFGCracking_ver.kr.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PCFGCracking_ver.kr.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/56560161-3507-4814-ad82-63b5e0fec16b.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/56560161-3507-4814-ad82-63b5e0fec16b/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/io/parse_loanword.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/io/parse_loanword.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/asd.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/password_guess.py" beforeDir="false" afterPath="$PROJECT_DIR$/password_guess.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/password_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/password_train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib.egg-info/PKG-INFO" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib.egg-info/PKG-INFO" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib.egg-info/SOURCES.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib.egg-info/SOURCES.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib.egg-info/dependency_links.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib.egg-info/dependency_links.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib.egg-info/requires.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib.egg-info/requires.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib.egg-info/top_level.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib.egg-info/top_level.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/data/sqlite3.db" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/data/sqlite3.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/guess/pcfg/pcfg_guesser.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/guess/pcfg/pcfg_guesser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/paths.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/paths.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/detectors/keyboard_walk_detection.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/detectors/keyboard_walk_detection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/detectors/leet_detection.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/detectors/leet_detection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/detectors/word_dectection.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/detectors/word_dectection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/data_parser/BaseParser.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/data_parser/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/data_parser/korean_copus_parser.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/data_parser/name_parser.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/data_parser/new_word_parser.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/data_parser/word_parser.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/io/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/io/parse_loanword.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/io/save_load.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/training_by_dataset.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/util/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/korean_dict/util/post_clean_data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/pcfg/pcfg_parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/pcfg/pcfg_parser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/trainer.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/trainer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pcfg_lib/training/util/korean.py" beforeDir="false" afterPath="$PROJECT_DIR$/pcfg_lib/training/util/korean.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -18,6 +55,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="SQL File" />
         <option value="Python Script" />
       </list>
     </option>
@@ -34,7 +72,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/Creeper0809/PCFGCracking.git&quot;,
-    &quot;accountId&quot;: &quot;f187842e-1344-4707-b574-04c1c9990b72&quot;
+    &quot;accountId&quot;: &quot;3343d076-e744-427f-969b-a22bfca9e0bf&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -45,36 +83,173 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.asd.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/creep/PycharmProjects/PCFGCracking",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.asd.executor&quot;: &quot;Run&quot;,
+    &quot;Python.bar_graph_draw.executor&quot;: &quot;Run&quot;,
+    &quot;Python.line_graph_draw.executor&quot;: &quot;Run&quot;,
+    &quot;Python.pcfg_parser.executor&quot;: &quot;Run&quot;,
+    &quot;Python.post_data.executor&quot;: &quot;Run&quot;,
+    &quot;Python.word_dectection.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/korean__logic__change&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/Programming/Project/PCFGCracking&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Programming\Project\PCFGCracking" />
+      <recent name="E:\Programming\Project\PCFGCracking\pcfg_lib\data" />
       <recent name="C:\Users\creep\PycharmProjects\PCFGCracking" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Programming\Project\PCFGCracking\Resource\TrainingData" />
       <recent name="C:\Users\creep\PycharmProjects\PCFGCracking\pcfg_lib\data" />
       <recent name="C:\Users\creep\PycharmProjects\PCFGCracking\pcfg_lib" />
     </key>
   </component>
+  <component name="RunManager" selected="Python.word_dectection">
+    <configuration name="asd" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PCFGCracking_ver.kr" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/asd.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="bar_graph_draw" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PCFGCracking_ver.kr" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bar_graph_draw.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="line_graph_draw" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PCFGCracking_ver.kr" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/line_graph_draw.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="post_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PCFGCracking_ver.kr" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Resource" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Resource/post_data.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="word_dectection" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="PCFGCracking_ver.kr" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/pcfg_lib/training/detectors" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/pcfg_lib/training/detectors/word_dectection.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.word_dectection" />
+        <item itemvalue="Python.asd" />
+        <item itemvalue="Python.line_graph_draw" />
+        <item itemvalue="Python.bar_graph_draw" />
+        <item itemvalue="Python.post_data" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-PY-251.26094.141" />
-        <option value="bundled-python-sdk-9f8e2b94138c-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26094.141" />
+        <option value="bundled-js-predefined-d6986cc7102b-e03c56caf84a-JavaScript-PY-252.23892.515" />
+        <option value="bundled-python-sdk-7e47963ff851-f0eec537fc84-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.23892.515" />
       </set>
     </attachedChunks>
   </component>
@@ -88,6 +263,27 @@
       <workItem from="1750304720370" duration="1626000" />
       <workItem from="1750306378422" duration="1154000" />
       <workItem from="1750307562457" duration="5225000" />
+      <workItem from="1751645244479" duration="4064000" />
+      <workItem from="1751986067006" duration="1902000" />
+      <workItem from="1752009562256" duration="9883000" />
+      <workItem from="1752021389378" duration="982000" />
+      <workItem from="1752023857110" duration="11678000" />
+      <workItem from="1752102397687" duration="5059000" />
+      <workItem from="1752128152710" duration="4135000" />
+      <workItem from="1752139831959" duration="603000" />
+      <workItem from="1752149422800" duration="1560000" />
+      <workItem from="1752423751134" duration="1488000" />
+      <workItem from="1752425253870" duration="173000" />
+      <workItem from="1753263509725" duration="2769000" />
+      <workItem from="1756902637503" duration="1546000" />
+      <workItem from="1756954245620" duration="595000" />
+      <workItem from="1756989986325" duration="2928000" />
+      <workItem from="1757101213249" duration="1036000" />
+      <workItem from="1757173472796" duration="596000" />
+      <workItem from="1757383129554" duration="1665000" />
+      <workItem from="1757404499825" duration="1901000" />
+      <workItem from="1757899205259" duration="3972000" />
+      <workItem from="1757914776914" duration="306000" />
     </task>
     <task id="LOCAL-00001" summary="asd">
       <option name="closed" value="true" />
@@ -225,7 +421,23 @@
       <option name="project" value="LOCAL" />
       <updated>1750331002356</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="asd">
+      <option name="closed" value="true" />
+      <created>1752424767779</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1752424767779</updated>
+    </task>
+    <task id="LOCAL-00019" summary="asd">
+      <option name="closed" value="true" />
+      <created>1752425216212</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1752425216212</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -236,6 +448,11 @@
     <option name="LAST_COMMIT_MESSAGE" value="asd" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PCFGCracking$asd.coverage" NAME="asd 커버리지 결과" MODIFIED="1750329585073" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PCFGCracking$post_data.coverage" NAME="post_data 커버리지 결과" MODIFIED="1752128350181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Resource" />
+    <SUITE FILE_PATH="coverage/PCFGCracking$pcfg_parser.coverage" NAME="pcfg_parser 커버리지 결과" MODIFIED="1752105869358" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pcfg_lib/training/pcfg" />
+    <SUITE FILE_PATH="coverage/PCFGCracking$word_dectection.coverage" NAME="word_dectection 커버리지 결과" MODIFIED="1757900442714" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/pcfg_lib/training/detectors" />
+    <SUITE FILE_PATH="coverage/PCFGCracking$line_graph_draw.coverage" NAME="line_graph_draw 커버리지 결과" MODIFIED="1752131255054" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PCFGCracking$bar_graph_draw.coverage" NAME="bar_graph_draw 커버리지 결과" MODIFIED="1752130120750" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PCFGCracking$asd.coverage" NAME="asd 커버리지 결과" MODIFIED="1757899268683" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

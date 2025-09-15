@@ -33,7 +33,9 @@ def leet_segment(text: str) -> List[Seg]:
     cursor = 0
     # 겹치지 않는 매칭만 선택
     for start, end, raw, decoded in candidates:
-        if start >= cursor:
+        has_special_char = any(not char.isalnum() for char in raw)
+
+        if start >= cursor and has_special_char:
             chosen.append((start, end, raw, decoded))
             cursor = end
 

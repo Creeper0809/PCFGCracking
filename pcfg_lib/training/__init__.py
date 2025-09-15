@@ -2,7 +2,6 @@
 
 from .detectors import *
 from .io import *
-from .korean_dict import *
 from .omen import *
 from .pcfg import *
 from .trainer import *

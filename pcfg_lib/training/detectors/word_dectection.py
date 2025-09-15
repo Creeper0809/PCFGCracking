@@ -1,159 +1,202 @@
 import math
+import os
+import sys
+import threading
 import functools
 from typing import List, Tuple, Optional
 
+import fasttext
+from pcfg_lib import paths
 from pcfg_lib.training.detectors.alphabet_detection import split_alpha
-from pcfg_lib.training.util.english import is_english, is_valid_alpha_token, get_english_prob
-from pcfg_lib.training.util.korean import is_korean, get_Htoken_prob, is_pure_korean
+from pcfg_lib.training.util.english import is_english, get_english_prob
+from pcfg_lib.training.util.korean import is_korean, get_Htoken_prob, roman2jamo, join_jamos, is_pure_korean
 
-Seg = Tuple[str, Optional[str]]  # 세그먼트 타입: (텍스트, 레이블)
 
-#--------------------------------------------------------------------------------
-# Segment Log Probability Section
-#--------------------------------------------------------------------------------
-def _segment_logprob(seg: str, log_unk: float) -> float:
-    """
-    세그먼트가 영어/한글인지 판별하여 로그 확률 반환.
-    미분류(seg neither)인 경우 log_unk * 길이로 처리.
-    """
+Seg = Tuple[str, Optional[str]]
+
+_model: Optional[fasttext.FastText] = None
+_model_lock = threading.Lock()
+_model_load_failed = False
+
+def get_model() -> Optional[fasttext.FastText]:
+    global _model, _model_load_failed
+    if _model_load_failed:
+        return None
+    if _model is None:
+        with _model_lock:
+            if _model is None:
+                try:
+                    model_path = os.path.join(paths.DATA_PATH, "model_quantized.ftz")
+                    _model = fasttext.load_model(model_path)
+                except Exception as e:
+                    _model_load_failed = True
+                    print(f"경고: FastText 모델 로드 실패: {e}")
+                    return None
+    return _model
+
+def _get_dubeolshik_label(seg: str) -> Optional[str]:
+    if not seg.isalpha():
+        return None
+
+    jamo_list = roman2jamo(seg)
+    if jamo_list is None or not is_pure_korean(seg):
+        return None
+
+    if not is_korean(seg):
+        return None
+
+    hangul_word = join_jamos("".join(jamo_list))
+
+    syllable_count = len(hangul_word)
+    if syllable_count > 0:
+        return f"K{syllable_count}"
+    return None
+
+def _segment_logprob(
+        seg: str,
+        log_unk: float,
+        prob_thresh: float = 0.6,
+        match_bonus: float = 0.5
+    ) -> Tuple[float, Optional[str]]:
+
+    dubeolshik_label = _get_dubeolshik_label(seg)
+    if dubeolshik_label:
+        return 1, dubeolshik_label
+
+    if len(seg) == 1:
+        return log_unk * len(seg), None
+
     if is_english(seg):
-        return get_english_prob(seg)  # 영어 단어 확률
-    if is_korean(seg):
-        return math.log(get_Htoken_prob(seg))  # 한글 토큰 로그 확률
-    return log_unk * len(seg)  # 미분류 토큰
+        dict_label = f"A{len(seg)}"
+        dict_logp = get_english_prob(seg)
+    elif is_korean(seg):
+        dict_label = f"H{len(seg)}"
+        dict_logp = math.log(get_Htoken_prob(seg))
+    else:
+        dict_label = None
+        dict_logp = log_unk * len(seg)
 
-#--------------------------------------------------------------------------------
-# Penalty Section
-#--------------------------------------------------------------------------------
+    model = get_model()
+    if model and seg.isalpha():
+        labels, probs = model.predict(seg, k=1)
+        if probs and probs[0] >= prob_thresh:
+            raw = labels[0].replace("__label__", "")
+            if raw == 'ko':
+                prefix = 'H'
+            elif raw == 'en':
+                prefix = 'A'
+            else:
+                prefix = None
+            if prefix:
+                model_label = f"{prefix}{len(seg)}"
+                model_logp = math.log(probs[0])
+            else:
+                model_label = None
+                model_logp = log_unk * len(seg)
+        else:
+            model_label = None
+            model_logp = log_unk * len(seg)
+    else:
+        model_label = None
+        model_logp = log_unk * len(seg)
+
+    if dict_label and model_label and dict_label == model_label:
+        return dict_logp + model_logp + match_bonus, model_label
+    if model_label:
+        return model_logp, model_label
+    if dict_label:
+        return dict_logp, dict_label
+    return log_unk * len(seg), None
+
 def _penalty(seg: str) -> float:
-    """
-    세그먼트 유형별 페널티 계산.
-    영어/한글이면 텍스트 여부에 따라 경미한 페널티, 그 외엔 길이 기반 페널티.
-    """
-    if is_korean(seg) or is_english(seg):
+    if is_english(seg) or is_korean(seg):
         return 0.5 if seg.isalpha() else 1.0
     return len(seg) + (10 if len(seg) <= 2 and not seg.isalpha() else 5)
 
-#--------------------------------------------------------------------------------
-# Best Path DP Section
-#--------------------------------------------------------------------------------
-def _best_path(text: str, max_len: int, log_unk: float) -> List[str]:
-    """
-    DP를 이용해 텍스트를 최적 분할하여 분할 리스트 반환.
-    """
+def _best_path(
+        text: str,
+        max_len: int,
+        log_unk: float,
+        length_bonus: float,
+        split_penalty: float
+    ) -> List[Seg]:
     n = len(text)
-    dp: List[Tuple[float, List[str]]] = [(-math.inf, []) for _ in range(n + 1)]
+    dp: List[Tuple[float, List[Seg]]] = [(-math.inf, []) for _ in range(n + 1)]
     dp[0] = (0.0, [])
 
     for i in range(1, n + 1):
         for j in range(max(0, i - max_len), i):
             seg = text[j:i]
-            score = dp[j][0] + _segment_logprob(seg, log_unk) - _penalty(seg)
+            logp, label = _segment_logprob(seg, log_unk)
+            prev_segs = dp[j][1]
+            new_count = len(prev_segs) + 1
+            split_cost = split_penalty * new_count
+            score = (
+                dp[j][0]
+                + logp
+                - _penalty(seg)
+                - split_cost
+                + length_bonus * len(seg)
+            )
             if score > dp[i][0]:
-                dp[i] = (score, dp[j][1] + [seg])
+                dp[i] = (score, prev_segs + [(seg, label)])
     return dp[n][1]
 
-#--------------------------------------------------------------------------------
-# Tag Segments Section
-#--------------------------------------------------------------------------------
-def _tag_segments(segments: List[str]) -> List[Seg]:
-    """
-    각 세그먼트에 H{길이} 또는 A{길이} 레이블, 그 외 None 부여.
-    """
-    tagged: List[Seg] = []
-    for seg in segments:
-        if is_korean(seg):
-            tagged.append((seg, f"H{len(seg)}"))
-        elif is_english(seg):
-            tagged.append((seg, f"A{len(seg)}"))
-        else:
-            tagged.append((seg, None))
-    return tagged
-
-#--------------------------------------------------------------------------------
-# Trim Bad Neighbors Section
-#--------------------------------------------------------------------------------
-def _trim_bad_neighbors(tagged: List[Seg]) -> List[Seg]:
-    """
-    주변에 라벨 없는 알파벳 단편(garbage alphabet)이 있으면 해당 H/A 라벨 제거.
-    영단어 사이에 한글이 있다고 오판가능성이 크기 때문
-    """
-    clean: List[Seg] = []
-    for i, (s, lab) in enumerate(tagged):
-        if not (lab and lab[0] in "HA"):
-            clean.append((s, lab))
-            continue
-        prev_bad = i > 0 and tagged[i-1][1] is None and is_valid_alpha_token(tagged[i-1][0])
-        next_bad = i+1 < len(tagged) and tagged[i+1][1] is None and is_valid_alpha_token(tagged[i+1][0])
-        clean.append((s, None if prev_bad or next_bad else lab))
-    return clean
-
-#--------------------------------------------------------------------------------
-# Merge Unlabeled Section
-#--------------------------------------------------------------------------------
-def _merge_unlabeled(final: List[Seg]) -> List[Seg]:
-    """
-    연속된 라벨 None 세그먼트를 병합하여 단일 세그먼트로 합침.
-    """
+def _merge_unlabeled(segs: List[Seg]) -> List[Seg]:
     merged: List[Seg] = []
-    for s, lab in final:
+    for txt, lab in segs:
         if lab is None and merged and merged[-1][1] is None:
-            merged[-1] = (merged[-1][0] + s, None)
+            prev_txt, _ = merged[-1]
+            merged[-1] = (prev_txt + txt, None)
         else:
-            merged.append((s, lab))
+            merged.append((txt, lab))
     return merged
 
-#--------------------------------------------------------------------------------
-# Check Unlabeled Alpha Section
-#--------------------------------------------------------------------------------
-def _has_unlabeled_alpha(segs: List[Seg]) -> bool:
-    """
-    None 라벨 세그먼트에 알파벳 문자가 포함되어 있는지 확인.
-    """
-    return any(lab is None and any(c.isalpha() for c in token) for token, lab in segs)
-
-#--------------------------------------------------------------------------------
-# Segment Word Section
-#--------------------------------------------------------------------------------
-def _try_transfrom_dubeol(text):
-    splited_text = split_alpha(text)
-    update = []
-    for seg in splited_text:
-        if not seg.isalpha():
-            update.append((seg, None))
-            continue
-        if not is_pure_korean(seg):
-            return False, None
-        update.append((seg, f"H{len(seg)}"))
-    return True, update
-
 @functools.lru_cache(maxsize=10_000)
-def _segment_word(text: str, max_len: int = 20) -> List[Seg]:
-    """
-    최적 분할, 태깅, 보정, 병합 순으로 처리하여 최종 세그먼트 리스트 반환.
-    """
-    is_pure, update = _try_transfrom_dubeol(text)
-    if is_pure:
-        return update
-    log_unk = math.log(1e-3)
-    best_segments = _best_path(text, max_len, log_unk)
-    tagged = _tag_segments(best_segments)
-    cleaned = _trim_bad_neighbors(tagged)
-    merged = _merge_unlabeled(cleaned)
-    return merged if not _has_unlabeled_alpha(merged) else [(text, None)]
+def segment_text(
+        text: str,
+        max_len: int = 20,
+        length_bonus: float = 0.1,
+        split_penalty: float = 1.0
+    ) -> List[Seg]:
+    if not text:
+        return []
 
-#--------------------------------------------------------------------------------
-# Public section
-#--------------------------------------------------------------------------------
+    split_res = split_alpha(text)
+    if isinstance(split_res, tuple) and len(split_res) == 2:
+        _, parts = split_res
+    else:
+        parts = split_res
+
+    result: List[Seg] = []
+    log_unk = math.log(1e-3)
+    for part in parts:
+        if not part:
+            continue
+        if all(is_korean(ch) for ch in part):
+            result.append((part, f"H{len(part)}"))
+        elif any(ch.isalpha() or ch.isdigit() for ch in part):
+            best = _best_path(part, max_len, log_unk, length_bonus, split_penalty)
+            for seg, lab in _merge_unlabeled(best):
+                result.append((seg, lab))
+        else:
+            result.append((part, None))
+    return result
+
 def detect_dictionary_word(sections: List[Seg]) -> List[Seg]:
-    """
-    None 라벨 구간을 재분할하여 레이블 부착된 세그먼트를 반환.
-    """
-    updated: List[Seg] = []
+    result: List[Seg] = []
     for txt, lab in sections:
         if lab is not None:
-            updated.append((txt, lab))
-            continue
-        for s_txt, s_lbl in _segment_word(txt):
-            updated.append((s_txt, s_lbl))
-    return updated
+            result.append((txt, lab))
+        else:
+            for s, l in segment_text(txt):
+                result.append((s, l))
+    return result
+
+
+if __name__ == "__main__":
+    samples = [
+        "book",
+    ]
+    for s in samples:
+        print(f"입력: '{s}' -> 결과:", detect_dictionary_word([(s, None)]))

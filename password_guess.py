@@ -4,6 +4,7 @@ import os
 from os import cpu_count
 
 from pcfg_lib.guess.crack import PCFGJohnSession, PCFGSession
+from setup import version
 
 
 def valid_hash_file(path):
@@ -17,7 +18,7 @@ def valid_hash_file(path):
 def parse_args():
     parser = argparse.ArgumentParser(
         prog="password_guess",
-        description="PCFG password guess 0.0.1v",
+        description=f"PCFG password guess {version}",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
         epilog="Example: password_guess -m md5 -a 2 --pw-min 6 --pw-max 12 -c 4 candidate.hash"
     )

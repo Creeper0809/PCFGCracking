@@ -60,15 +60,17 @@ class PCFGGuesser:
     def __init__(self, config):
         self.log = config.get("log", False)
         # PCFG 문법 로드
+        password_path = paths.get_train_set_url()
         self.grammar, self.base_structure = load_pcfg_grammar(
-            db_path=os.path.join(paths.DATA_PATH, "sqlite3.db")
+            db_path=password_path
         )
         self.omen_optimizer = Memorizer(max_length=4)
         # Markov only 모드
         if config.get("attack_mode",0) == 1:
-            self.omen_grammar = load_omen_rules(db_path=paths.KOREAN_DICT_DB_PATH)
+            korean_dict_db_path = paths.get_korean_dict_url()
+            self.omen_grammar = load_omen_rules(db_path=korean_dict_db_path)
             load_omen_prob(
-                dbpath=paths.KOREAN_DICT_DB_PATH,
+                dbpath=korean_dict_db_path,
                 grammar=self.grammar
             )
             self.base_structure = [{Type.PROB: 1.0, Type.REPLACEMENTS: ["M"]}]
